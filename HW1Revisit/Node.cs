@@ -1,7 +1,7 @@
 ﻿namespace HW1Revisit;
 class Node {
     private int data;
-    private Node nextRight;
+    private Node nextRight;//Since we want BST, the node class has right/left
     private Node nextLeft;
 
     //constructors

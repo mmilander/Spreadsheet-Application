@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HW1Revisit;
+﻿namespace HW1Revisit;
 
 class BST
 {
@@ -19,7 +17,7 @@ class BST
         if(root == null)
         {
             root = temp;
-            count++;
+            count++; //Create root so we add one
         }
         else
         {  
@@ -34,7 +32,7 @@ class BST
         }
         else
         { 
-            if (value > rootNode.Data)
+            if (value > rootNode.Data) //check for duplicates by never adding them
             {
                 if (rootNode.NextRight != null)
                 {

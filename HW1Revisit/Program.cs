@@ -1,5 +1,4 @@
-﻿
-using HW1Revisit;
+﻿namespace HW1Revisit;
 
 class HWOne
 {
