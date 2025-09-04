@@ -15,6 +15,14 @@ class HWOne
             sample.Insert(Convert.ToInt32(sub));
         }
 
+        Console.Write("\nTree Contents: ");
         sample.printTree();
+        Console.WriteLine("\nTree Statistics");
+        Console.WriteLine(" Number of nodes: " + sample.getCount());
+        Console.WriteLine(" Number of levels: " + (sample.getHeight()+1));
+        Console.WriteLine(" Minimum number of levels that a tree with " + 
+                        sample.getCount() + " nodes could have: " + 
+                        (Math.Floor(Math.Log(sample.getCount(), 2))+1));
+
     }
 }

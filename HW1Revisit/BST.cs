@@ -5,17 +5,21 @@ namespace HW1Revisit;
 class BST
 {
     private Node root;
+    private int count;
 
    public BST(){
         root = null;
+        count = 0;
     }
   
+    //attach node to tree
     public void Insert(int value)
     {
         Node temp = new Node(value);
         if(root == null)
         {
             root = temp;
+            count++;
         }
         else
         {  
@@ -26,8 +30,7 @@ class BST
     {
         if(rootNode == null)
         {
-            Node temp = new Node(value);
-            rootNode = temp;
+            return;
         }
         else
         { 
@@ -41,6 +44,7 @@ class BST
                 {
                     Node temp = new Node(value);
                     rootNode.NextRight = temp;
+                    count++;
                 }
             }
             else if(value < rootNode.Data)  
@@ -53,9 +57,44 @@ class BST
                 {
                     Node temp = new Node(value);
                     rootNode.NextLeft = temp;
+                    count++;
                 }
             }
         }
+    }
+
+    //retrieve number of nodes
+    public int getCount()
+    {
+        return count;
+    }
+
+    //Retrieve number of levels in tree
+    public int getHeight()
+    {
+        if(root == null)
+        {
+            return 0;
+        }
+        return getHeightHelper(root);
+    }
+    private int getHeightHelper(Node rootNode)
+    {
+        if(rootNode == null)
+        {
+            return -1;
+        }
+        int leftHeight = getHeightHelper(rootNode.NextLeft);
+        int rightHeight = getHeightHelper(rootNode.NextRight);
+
+        if(leftHeight >= rightHeight)
+        {
+            return leftHeight + 1;
+        }
+        else
+        {
+            return rightHeight + 1;
+        }  
     }
 
     //in-order print
@@ -67,7 +106,7 @@ class BST
           if(rec != null)
           {
               printTreeHelper(rec.NextLeft);
-            Console.WriteLine(rec.Data);
+            Console.Write(rec.Data + " ");
             printTreeHelper(rec.NextRight);
           }
     }
