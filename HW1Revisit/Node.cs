@@ -1,19 +1,30 @@
 ﻿namespace HW1Revisit;
 class Node {
     private int data;
-    private Node next;
+    private Node nextRight;
+    private Node nextLeft;
 
     //constructors
-    public Node() { }
+    public Node() {
+        data = 0;
+        nextRight = null;
+        nextLeft = null;
+    }
     public Node(int num)
     {
         this.data = num;
     }
 
-    public Node Next
+    
+    public Node NextRight
     {
-        get { return next; }
-        set { next = value; }
+        get { return nextRight; }
+        set { nextRight = value; }
+    }
+    public Node NextLeft
+    {
+        get { return nextLeft; }
+        set { nextLeft = value; }
     }
 
     public int Data
