@@ -1,12 +1,41 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\mitch\\OneDrive\\Desktop\\QuickSolution\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\mitch\\OneDrive\\Desktop\\CS 321\\QuickSolutionHW\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A8E63B7B-42DE-4521-A4E4-6077D3FE6D26}|HW1Revisit\\HW1Revisit.csproj|c:\\users\\mitch\\onedrive\\desktop\\cs 321\\quicksolutionhw\\hw1revisit\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A8E63B7B-42DE-4521-A4E4-6077D3FE6D26}|HW1Revisit\\HW1Revisit.csproj|solutionrelative:hw1revisit\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\mitch\\OneDrive\\Desktop\\CS 321\\QuickSolutionHW\\HW1Revisit\\Program.cs",
+              "RelativeDocumentMoniker": "HW1Revisit\\Program.cs",
+              "ToolTip": "C:\\Users\\mitch\\OneDrive\\Desktop\\CS 321\\QuickSolutionHW\\HW1Revisit\\Program.cs",
+              "RelativeToolTip": "HW1Revisit\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-04T09:43:51.682Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

@@ -1,6 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-
+﻿
 class HWOne
 {
     //Step 1: Get a list of integer numbers from the user on A SINGLE LINE
