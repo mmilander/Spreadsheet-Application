@@ -33,17 +33,40 @@ namespace HW2
 
         
         /// <summary> uses a hash set to determine unqiue elements
-        /// <returns></returns>int>
+        /// <returns></returns>int> # unique nums
         public int MethodOne()
         {
+            HashSet<int> numSet = new HashSet<int>(list);
 
-            return 0;
+            return numSet.Count;
         }
 
      
         /// <summary> uses brute-force method to determine unqiue elements>
         /// <returns></int>
         public int MethodTwo() { //Check every number that comes before it to see if duplicate
+            int count = 0;
+            int indexFirstItr = 0;
+            int indexSecondItr = 0;
+            bool flag = false;
+            foreach (var outerNum in list)
+            {
+                foreach(var innerNum in list)
+                {
+                    if(outerNum == innerNum && indexFirstItr != indexSecondItr) // find duplicate (excluding itself)
+                    {
+                        flag = true;
+                        break;
+                    }
+                    indexSecondItr++;
+                }
+                if(flag == false)
+                {
+                    count++;
+                }
+                indexSecondItr = 0;
+            }
+            indexFirstItr++;
             return 0;
         }
 
