@@ -20,12 +20,16 @@ namespace HW2Tests
             Assert.NotNull(TestClass.array);
         }
 
-        /// <summary> test to make sure random value is 20000 or below
+        /// <summary> test to make sure all random values are between [0,20000]
         /// <return></void>
         [Test]
         public void TestInBounds()
-        { 
-            
+        {
+            for(int i = 0; i < 10000; i++)
+            {
+                Assert.LessOrEqual(TestClass.array[i], 20001);
+                Assert.GreaterOrEqual(TestClass.array[i], 0);
+            }
         }
 
         /// <summary> Test that all three unique number calculations are equivalent
