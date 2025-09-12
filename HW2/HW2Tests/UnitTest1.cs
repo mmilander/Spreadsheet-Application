@@ -15,7 +15,7 @@ namespace HW2Tests
         /// <summary> test to make sure array is initialized with values
         /// <return></void>
         [Test]
-        public void TestNullCase()
+        public void TestEmpty()
         {
             Assert.IsNotEmpty(TestClass.list);
         }
