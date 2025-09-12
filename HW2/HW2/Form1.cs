@@ -68,7 +68,19 @@ namespace HW2
         /// <returns></int>
         public int MethodThree() //count number of times a new number appears
         {
-            return 0;
+            int count = 1;
+            int tempNumStore = list[0];
+            list.Sort();
+            for(int i = 0; i < 10000; i++)
+            {
+                if (list[i] != tempNumStore)
+                {
+                    count++;
+                    tempNumStore = list[i];
+                }
+
+            }
+            return count;
         }
 
 
