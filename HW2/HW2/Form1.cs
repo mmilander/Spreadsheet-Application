@@ -1,17 +1,27 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
+using System.Xml;
 namespace HW2
 {
     public partial class Form1 : Form
     {
         public List<int> list;
-        public int[] array;
+        public int methodOneResult;
+        public int methodTwoResult;
+        public int methodThreeResult;
         public Form1()
         {
             InitializeComponent();
             list = new List<int>();
+            methodOneResult = 0;
+            methodTwoResult = 0;
+            methodThreeResult = 0;
             LoadArray();
+            methodOneResult = MethodOne();
+            methodTwoResult = MethodTwo();
+            methodThreeResult = MethodThree();
+            Output();
         }
 
         //Fill array with random nums
@@ -82,7 +92,16 @@ namespace HW2
             }
             return count;
         }
-
+        public void Output()
+        {
+             StringBuilder stringObj = new StringBuilder("", 500);
+            stringObj.Append("1. HashMethod: " + methodOneResult.ToString() + " unique numbers\n");
+            stringObj.Append("The time complexity of the HashMethod is O(n) since under the hood\nit takes n operations" +
+                " to copy elements from the list over to the hashset.\n");
+            stringObj.Append("2. O(n^2) BruteForce Method: " + methodTwoResult.ToString() + " unique numbers\n");
+            stringObj.Append("3. Sorted method: " + methodThreeResult.ToString() + " unique numbers\n");
+            setTextBox(stringObj.ToString());
+        }
 
         private void textBoxTextChanged(object sender, EventArgs e)
         {

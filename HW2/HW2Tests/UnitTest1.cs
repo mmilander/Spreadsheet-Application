@@ -37,10 +37,7 @@ namespace HW2Tests
         [Test]
         public void TestEquality()
         {
-            int methodOneResult = TestClass.MethodOne();
-            int methodTwoResult = TestClass.MethodTwo();
-            int methodThreeResult = TestClass.MethodThree();
-            Assert.AreEqual(methodOneResult, methodTwoResult, methodThreeResult);
+            Assert.AreEqual(TestClass.methodOneResult, TestClass.methodTwoResult, TestClass.methodThreeResult);
 
         }
     }
