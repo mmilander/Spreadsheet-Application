@@ -17,7 +17,7 @@ namespace HW2Tests
         [Test]
         public void TestNullCase()
         {
-            Assert.NotNull(TestClass.array);
+            Assert.IsNotEmpty(TestClass.list);
         }
 
         /// <summary> test to make sure all random values are between [0,20000]
@@ -25,10 +25,10 @@ namespace HW2Tests
         [Test]
         public void TestInBounds()
         {
-            for(int i = 0; i < 10000; i++)
+            foreach(var num in TestClass.list)
             {
-                Assert.LessOrEqual(TestClass.array[i], 20001);
-                Assert.GreaterOrEqual(TestClass.array[i], 0);
+                Assert.LessOrEqual(num, 20001);
+                Assert.GreaterOrEqual(num, 0);
             }
         }
 

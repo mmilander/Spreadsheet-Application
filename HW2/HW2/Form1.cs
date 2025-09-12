@@ -1,30 +1,27 @@
 using System;
 using System.Text;
+using System.Collections.Generic;
 namespace HW2
 {
     public partial class Form1 : Form
     {
+        public List<int> list;
         public int[] array;
         public Form1()
         {
             InitializeComponent();
             RunDistinctIntegers();
-            array = new int[10000];
-            loadArray();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
+            list = new List<int>();
+            LoadArray();
         }
 
         //Fill array with random nums
-        private void loadArray()
+        private void LoadArray()
         {
             var rand = new Random();
             for (int i = 0; i < 10000; i++)
             {
-                array[i] = rand.Next(20001);
+                list.Add(rand.Next(20001));
             }
         }
         private void RunDistinctIntegers() // this is your method
@@ -39,6 +36,7 @@ namespace HW2
         /// <returns></returns>int>
         public int MethodOne()
         {
+
             return 0;
         }
 
