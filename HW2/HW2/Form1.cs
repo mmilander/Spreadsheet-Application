@@ -78,9 +78,9 @@ namespace HW2
         /// <returns></int>
         public int MethodThree() //count number of times a new number appears
         {
+            list.Sort();
             int count = 1;
             int tempNumStore = list[0];
-            list.Sort();
             for(int i = 0; i < 10000; i++)
             {
                 if (list[i] != tempNumStore)
@@ -92,14 +92,16 @@ namespace HW2
             }
             return count;
         }
+        /// <summary> Use string builder to organize text and send to TextBox
+        /// <return></void>
         public void Output()
         {
              StringBuilder stringObj = new StringBuilder("", 500);
-            stringObj.Append("1. HashMethod: " + methodOneResult.ToString() + " unique numbers\n");
-            stringObj.Append("The time complexity of the HashMethod is O(n) since under the hood\nit takes n operations" +
-                " to copy elements from the list over to the hashset.\n");
-            stringObj.Append("2. O(n^2) BruteForce Method: " + methodTwoResult.ToString() + " unique numbers\n");
-            stringObj.Append("3. Sorted method: " + methodThreeResult.ToString() + " unique numbers\n");
+            stringObj.Append("1. HashMethod: " + methodOneResult.ToString() + " unique numbers\r\n");
+            stringObj.Append("The time complexity of the HashMethod is O(n) since under the hood\n it takes n operations" +
+                " to copy elements from the list over to the hashset.\r\n");
+            stringObj.Append("2. O(n^2) BruteForce Method: " + methodTwoResult.ToString() + " unique numbers\r\n");
+            stringObj.Append("3. Sorted method: " + methodThreeResult.ToString() + " unique numbers\r\n");
             setTextBox(stringObj.ToString());
         }
 

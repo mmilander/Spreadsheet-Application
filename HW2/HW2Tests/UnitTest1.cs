@@ -37,8 +37,8 @@ namespace HW2Tests
         [Test]
         public void TestEquality()
         {
-            Assert.AreEqual(TestClass.methodOneResult, TestClass.methodTwoResult, TestClass.methodThreeResult);
-
+            Assert.AreEqual(TestClass.methodOneResult, TestClass.methodTwoResult);
+            Assert.AreEqual(TestClass.methodTwoResult, TestClass.methodThreeResult);
         }
     }
 }

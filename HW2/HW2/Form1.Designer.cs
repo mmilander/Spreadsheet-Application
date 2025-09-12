@@ -36,6 +36,7 @@
             // textBox2
             // 
             textBox.Dock = DockStyle.Fill;
+            textBox.Multiline = true;
             textBox.Location = new Point(0, 0);
             textBox.Name = "textBox";
             textBox.Size = new Size(1226, 31);
