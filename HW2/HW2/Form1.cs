@@ -17,7 +17,7 @@ namespace HW2
             methodOneResult = 0;
             methodTwoResult = 0;
             methodThreeResult = 0;
-            LoadArray();
+            LoadList();
             methodOneResult = MethodOne();
             methodTwoResult = MethodTwo();
             methodThreeResult = MethodThree();
@@ -25,7 +25,7 @@ namespace HW2
         }
 
         //Fill array with random nums
-        private void LoadArray()
+        private void LoadList()
         {
             var rand = new Random();
             for (int i = 0; i < 10000; i++)
