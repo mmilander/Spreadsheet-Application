@@ -10,7 +10,6 @@ namespace HW2
         public Form1()
         {
             InitializeComponent();
-            RunDistinctIntegers();
             list = new List<int>();
             LoadArray();
         }
@@ -24,14 +23,11 @@ namespace HW2
                 list.Add(rand.Next(20001));
             }
         }
-        private void RunDistinctIntegers() // this is your method
+        private void Form1_Load(object sender, EventArgs e)
         {
-            //method 1,
-            //method 2,
-            //method 3,
+
         }
 
-        
         /// <summary> uses a hash set to determine unqiue elements
         /// <returns></returns>int> # unique nums
         public int MethodOne()
@@ -41,33 +37,30 @@ namespace HW2
             return numSet.Count;
         }
 
-     
+
         /// <summary> uses brute-force method to determine unqiue elements>
         /// <returns></int>
-        public int MethodTwo() { //Check every number that comes before it to see if duplicate
+        public int MethodTwo()
+        { //Check every number that comes before it to see if duplicate
             int count = 0;
-            int indexFirstItr = 0;
-            int indexSecondItr = 0;
-            bool flag = false;
-            foreach (var outerNum in list)
+            bool dupFound = false;
+            for(int i = 0; i < 10000; i++)
             {
-                foreach(var innerNum in list)
+                int store = list[i];
+                for(int j = 0; j < i; j++)
                 {
-                    if(outerNum == innerNum && indexFirstItr != indexSecondItr) // find duplicate (excluding itself)
+                    if (list[j] == list[i] && j != i)
                     {
-                        flag = true;
-                        break;
+                        dupFound = true;
                     }
-                    indexSecondItr++;
                 }
-                if(flag == false)
+                if (!dupFound)
                 {
                     count++;
                 }
-                indexSecondItr = 0;
+                dupFound = false;
             }
-            indexFirstItr++;
-            return 0;
+            return count;
         }
 
        
