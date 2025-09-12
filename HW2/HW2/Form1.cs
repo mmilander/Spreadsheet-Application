@@ -39,14 +39,14 @@ namespace HW2
         /// <returns></returns>int>
         public int MethodOne()
         {
-
+            return 0;
         }
 
      
         /// <summary> uses brute-force method to determine unqiue elements>
         /// <returns></int>
         public int MethodTwo() { //Check every number that comes before it to see if duplicate
-
+            return 0;
         }
 
        
@@ -54,8 +54,8 @@ namespace HW2
         /// <returns></int>
         public int MethodThree() //count number of times a new number appears
         {
-
-         }
+            return 0;
+        }
 
 
         private void textBoxTextChanged(object sender, EventArgs e)

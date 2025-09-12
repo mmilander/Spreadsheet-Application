@@ -1,4 +1,5 @@
 using HW2;
+using NUnit.Framework;
 namespace HW2Tests
 {
     public class Tests
@@ -8,6 +9,7 @@ namespace HW2Tests
         [SetUp]
         public void Setup()
         {
+            TestClass = new Form1();
         }
 
         /// <summary> test to make sure array is initialized with values
@@ -15,7 +17,7 @@ namespace HW2Tests
         [Test]
         public void TestNullCase()
         {
-          
+            Assert.NotNull(TestClass.array);
         }
 
         /// <summary> test to make sure random value is 20000 or below
