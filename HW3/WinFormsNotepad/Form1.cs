@@ -13,7 +13,7 @@ namespace WinFormsNotepad
         }
 
         /// <summary>
-        /// This's takes a System.IO.TextReader object as a
+        /// This takes a System.IO.TextReader object as a
         /// parameter and reads all the text from the TextReader object 
         /// and puts it in the text box interface
         /// </summary>
@@ -23,7 +23,7 @@ namespace WinFormsNotepad
         }
 
         /// <summary>
-        /// 
+        /// Loads data from file into WinForms Module
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -39,10 +39,40 @@ namespace WinFormsNotepad
                 //Read the contents of the file into a stream
                 var fileStream = openFileDialog1.OpenFile();
 
-                StreamReader reader = new StreamReader(fileStream);
-                LoadText(reader);
+                using (StreamReader reader = new StreamReader(fileStream))
+                {
+                    LoadText(reader);
+                }
+                   
             }
         }
 
+        /// <summary>
+        /// Saves data from WinForms Module into selected file.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void saveToFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            Stream myStream;
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+
+            saveFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            saveFileDialog1.FilterIndex = 2;
+            saveFileDialog1.RestoreDirectory = true;
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                if ((myStream = saveFileDialog1.OpenFile()) != null)
+                {
+                    using (StreamWriter writer = new StreamWriter(myStream))
+                    {
+                        writer.WriteLine(textBox1.Text);
+                    }
+                    myStream.Close();
+                }
+            }
+        }
     }
 }
