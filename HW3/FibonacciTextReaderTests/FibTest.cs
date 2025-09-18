@@ -8,7 +8,19 @@ namespace FibonacciTextReaderTests
         }
 
         [Test]
-        public void Test1()
+        public void TestNormalCase()
+        {
+            Assert.Pass();
+        }
+
+        [Test]
+        public void EdgeCase()
+        {
+            Assert.Pass();
+        }
+
+        [Test]
+        public void ExceptionCase()
         {
             Assert.Pass();
         }

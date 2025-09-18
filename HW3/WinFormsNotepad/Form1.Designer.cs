@@ -74,8 +74,9 @@
             // loadToolStripMenuItem
             // 
             loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            loadToolStripMenuItem.Size = new Size(270, 34);
+            loadToolStripMenuItem.Size = new Size(387, 34);
             loadToolStripMenuItem.Text = "Load from file...";
+            loadToolStripMenuItem.Click += loadToolStripMenuItem_Click;
             // 
             // loadToolStripMenuItem1
             // 
