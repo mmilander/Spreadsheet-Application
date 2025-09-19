@@ -1,81 +1,100 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿// <copyright file="FibonacciTextReader.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 using System.Numerics;
 using System.Text;
 
+/// <summary>
+/// This class determines the Fibonacci sequence based
+/// on max number and overrides TextReader functions to allow
+/// file integration.
+/// </summary>
 public class FibonacciTextReader : System.IO.TextReader
 {
-    public int maxCount;
-    public int trackerCount;
-    public BigInteger prev;
-    public BigInteger curr;
+    private readonly int maxCount;
+    private int trackerCount;
+    private BigInteger prev;
+    private BigInteger curr;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="FibonacciTextReader"/> class.
+    /// </summary>
+    /// <param name="maxLineCount">
+    /// The paramter is the max number of fib elements.
+    /// </param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// This exception is thrown if the input is out of range.
+    /// </exception>
     public FibonacciTextReader(int maxLineCount)
     {
         if (maxLineCount < 0)
         {
-            throw new ArgumentOutOfRangeException("Out of range");
+            throw new ArgumentOutOfRangeException(nameof(maxLineCount), "Out of range");
         }
         else
         {
-            maxCount = maxLineCount;
-            trackerCount = 0;
-            prev = 0;
-            curr = 1;
+            this.maxCount = maxLineCount;
+            this.trackerCount = 0;
+            this.prev = 0;
+            this.curr = 1;
         }
     }
 
-
     /// <summary>
-    /// Override's the original ReadLine() method from TextReader
+    /// Override's the original ReadLine() method from TextReader.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>
+    /// string.
+    /// </returns>
     public override string ReadLine()
-    {
-        if (trackerCount == maxCount)
+    { // non-recursive Fibonacci Algorithm
+        if (this.trackerCount == this.maxCount)
         {
             return null;
         }
-        else if (trackerCount == 0)
+        else if (this.trackerCount == 0)
         {
-            trackerCount++;
+            this.trackerCount++;
             return "0";
         }
-        else if (trackerCount == 1)
+        else if (this.trackerCount == 1)
         {
-            trackerCount++;
+            this.trackerCount++;
             return "1";
         }
         else
         {
-            trackerCount++;
-            BigInteger tempFibNum = curr;
-            curr = prev + curr;
-            prev = tempFibNum;
-            string result = curr.ToString();
+            this.trackerCount++;
+            BigInteger tempFibNum = this.curr;
+            this.curr = this.prev + this.curr;
+            this.prev = tempFibNum;
+            string result = this.curr.ToString();
             return result;
         }
     }
 
     /// <summary>
-    /// Override's the original ReadToEnd() method from TextReader
+    /// Override's the original ReadToEnd() method from TextReader.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>
+    /// string
+    /// </returns>
     public override string ReadToEnd()
     {
         int lineNum = 1;
         StringBuilder sb = new StringBuilder();
-        string store = ReadLine();
+        string store = this.ReadLine();
         while (store != null)
         {
             sb.Append(lineNum.ToString());
             sb.Append(": ");
             sb.Append(store);
-            store = ReadLine();
+            store = this.ReadLine();
             sb.AppendLine();
             lineNum++;
         }
+
         return sb.ToString();
     }
 }
-
