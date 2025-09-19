@@ -43,7 +43,7 @@ namespace WinFormsNotepad
                 {
                     LoadText(reader);
                 }
-                   
+
             }
         }
 
@@ -54,7 +54,7 @@ namespace WinFormsNotepad
         /// <param name="e"></param>
         private void saveToFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
             Stream myStream;
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
 
@@ -73,6 +73,30 @@ namespace WinFormsNotepad
                     myStream.Close();
                 }
             }
+        }
+
+        /// <summary>
+        /// Loads the first 50 Fibonacci Numbers to WinForms Interface
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void loadToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            FibonacciTextReader initFib = new FibonacciTextReader(50);
+            StringReader tempStringReader = new StringReader(initFib.ReadToEnd());
+            LoadText(tempStringReader);
+        }
+
+        /// <summary>
+        /// Loads the first 100 Fibonacci Numbers to WinForms Interface
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void loadFibonacciNumbersfirst100ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FibonacciTextReader initFib = new FibonacciTextReader(100);
+            StringReader tempStringReader = new StringReader(initFib.ReadToEnd());
+            LoadText(tempStringReader);
         }
     }
 }

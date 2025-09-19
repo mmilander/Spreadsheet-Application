@@ -3,7 +3,7 @@
 using System.Numerics;
 using System.Text;
 
-class FibonacciTextReader : System.IO.TextReader
+public class FibonacciTextReader : System.IO.TextReader
 {
     public int maxCount;
     public int trackerCount;
@@ -12,10 +12,17 @@ class FibonacciTextReader : System.IO.TextReader
 
     public FibonacciTextReader(int maxLineCount)
     {
-        maxCount = maxLineCount;
-        trackerCount = 0;
-        prev = 1;
-        curr = 0;
+        if (maxLineCount < 0)
+        {
+            throw new ArgumentOutOfRangeException("Out of range");
+        }
+        else
+        {
+            maxCount = maxLineCount;
+            trackerCount = 0;
+            prev = 0;
+            curr = 1;
+        }
     }
 
 
@@ -56,12 +63,17 @@ class FibonacciTextReader : System.IO.TextReader
     /// <returns></returns>
     public override string ReadToEnd()
     {
+        int lineNum = 1;
         StringBuilder sb = new StringBuilder();
         string store = ReadLine();
         while (store != null)
         {
+            sb.Append(lineNum.ToString());
+            sb.Append(": ");
             sb.Append(store);
-            store = ReadLine(); 
+            store = ReadLine();
+            sb.AppendLine();
+            lineNum++;
         }
         return sb.ToString();
     }

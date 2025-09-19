@@ -7,10 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HW3", "HW3\HW3.csproj", "{2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsNotepad", "WinFormsNotepad\WinFormsNotepad.csproj", "{F23EC65D-FB75-46DE-BF6B-128878B2119E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoadFileTests", "LoadFileTests\LoadFileTests.csproj", "{9A40EEB6-B58F-47F0-BB82-45EF77AE691D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadFileTests", "ReadFileTests\ReadFileTests.csproj", "{318EC6FE-8ED0-48DE-93EF-854396627860}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FibonacciTextReaderTests", "FibonacciTextReaderTests\FibonacciTextReaderTests.csproj", "{64EF1586-81E8-4E92-B077-2109E83D3BD9}"
 EndProject
 Global
@@ -27,14 +23,6 @@ Global
 		{F23EC65D-FB75-46DE-BF6B-128878B2119E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F23EC65D-FB75-46DE-BF6B-128878B2119E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F23EC65D-FB75-46DE-BF6B-128878B2119E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9A40EEB6-B58F-47F0-BB82-45EF77AE691D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9A40EEB6-B58F-47F0-BB82-45EF77AE691D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9A40EEB6-B58F-47F0-BB82-45EF77AE691D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9A40EEB6-B58F-47F0-BB82-45EF77AE691D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{318EC6FE-8ED0-48DE-93EF-854396627860}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{318EC6FE-8ED0-48DE-93EF-854396627860}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{318EC6FE-8ED0-48DE-93EF-854396627860}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{318EC6FE-8ED0-48DE-93EF-854396627860}.Release|Any CPU.Build.0 = Release|Any CPU
 		{64EF1586-81E8-4E92-B077-2109E83D3BD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{64EF1586-81E8-4E92-B077-2109E83D3BD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64EF1586-81E8-4E92-B077-2109E83D3BD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
