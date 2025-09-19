@@ -33,7 +33,7 @@ namespace WinFormsNotepad
         }
 
         /// <summary>
-        /// Loads data from file into WinForms Module
+        /// Loads data from file into WinForms Module.
         /// </summary>
         /// <param name="sender">
         /// Default code from Microsoft Docs.
@@ -94,7 +94,7 @@ namespace WinFormsNotepad
         }
 
         /// <summary>
-        /// Loads the first 50 Fibonacci Numbers to WinForms Interface
+        /// Loads the first 50 Fibonacci Numbers to WinForms Interface.
         /// </summary>
         /// <param name="sender">
         /// Default Windows Code params from docs.
@@ -110,7 +110,7 @@ namespace WinFormsNotepad
         }
 
         /// <summary>
-        /// Loads the first 100 Fibonacci Numbers to WinForms Interface
+        /// Loads the first 100 Fibonacci Numbers to WinForms Interface.
         /// </summary>
         /// <param name="sender">
         /// Default Windows Code params from docs.
