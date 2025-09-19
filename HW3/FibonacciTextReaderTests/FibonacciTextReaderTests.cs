@@ -34,7 +34,6 @@ public class FibonacciTextReaderTests
         {
             string comp = "1: 0\r\n2: 1\r\n3: 1\r\n4: 2\r\n5: 3\r\n";
             string result = this.normalCase.ReadToEnd();
-            Console.WriteLine(result);
             Assert.That(result, Is.EqualTo(comp));
         }
 
