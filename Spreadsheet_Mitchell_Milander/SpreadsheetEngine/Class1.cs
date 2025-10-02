@@ -9,7 +9,10 @@ namespace SpreadsheetEngine
     /// <summary>
     /// This is the Abstract framework for the Cell Class.
     /// </summary>
-    public abstract class Cell : INotifyPropertyChanged
+    ///
+#pragma warning disable SA1649 // File name should match first type name
+    public abstract class Cell : INotifyPropertyChanged // Supress because I am unsure how to handle.
+#pragma warning restore SA1649 // File name should match first type name
     {
         /// <summary>
         /// Fields for Cell Class.
@@ -30,8 +33,8 @@ namespace SpreadsheetEngine
         /// Initializes a new instance of the <see cref="Cell"/> class.
         /// The Constructor for Cell Class.
         /// </summary>
-        /// <param name="rowIndex">Index of row</param>
-        /// <param name="columnIndex">Index of Column</param>
+        /// <param name="rowIndex">Index of row.</param>
+        /// <param name="columnIndex">Index of Column.</param>
         public Cell(int rowIndex, int columnIndex)
         {
             this.rowIndex = rowIndex;
@@ -76,7 +79,7 @@ namespace SpreadsheetEngine
                 if (value != this.text)
                 {
                     this.text = value;
-                    this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Text)));
+                    this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.Text)));
                 }
             }
         }
@@ -93,9 +96,9 @@ namespace SpreadsheetEngine
         }
 
         /// <summary>
-        /// This allows only the spreadsheet class to change the value
+        /// This allows only the spreadsheet class to change the value.
         /// </summary>
-        /// <param name="value">if = then corresponds to formula</param>
+        /// <param name="value">if = then corresponds to formula.</param>
         internal void SetValue(string value)
         {
             this.value = value;

@@ -12,8 +12,8 @@ namespace SpreadsheetEngine
         /// <summary>
         /// Initializes a new instance of the <see cref="ConcreteCell"/> class.
         /// </summary>
-        /// <param name="row">Row index</param>
-        /// <param name="col">Column index</param>
+        /// <param name="row">Row index.</param>
+        /// <param name="col">Column index.</param>
         public ConcreteCell(int row, int col)
             : base(row, col)
         {

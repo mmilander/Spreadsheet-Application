@@ -18,18 +18,18 @@ namespace Spreadsheet_Mitchell_Milander
             this.InitializeDataGrid();
         }
 
-
         private void Spreadsheet_Load(object sender, EventArgs e)
         {
             // Fill in Details through Semester
         }
 
-        private void InitializeDataGrid() {
+        private void InitializeDataGrid()
+        {
             this.dataGridView1.Columns.Clear();
             this.dataGridView1.Columns.Clear();
 
             // Create Columns A-Z
-            for (char i = 'A'; i <= 'Z'; i++)
+            for (char i = 'A'; i <= 'Z'; i++) // iterativly create columns
             {
                 this.dataGridView1.Columns.Add(i + string.Empty, i + string.Empty);
             }

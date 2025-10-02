@@ -14,9 +14,9 @@ public class SpreadsheetEngineCellTests
     // Suppressed this warning about having a [Teardown] method because
     // I am unsure how to handle it.
 #pragma warning disable NUnit1032 // An IDisposable field/property should be Disposed in a TearDown method
-    private Cell normalCase;
-    private Cell edgeCase;
-    private Cell? exceptionCase;
+    private normalCase;
+    private edgeCase;
+    private ? exceptionCase;
 #pragma warning restore NUnit1032 // An IDisposable field/property should be Disposed in a TearDown method.
     /// <summary>
     /// This method provides the initial setup for the testing.
