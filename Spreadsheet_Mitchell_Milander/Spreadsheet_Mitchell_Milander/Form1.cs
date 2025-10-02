@@ -27,9 +27,10 @@ namespace Spreadsheet_Mitchell_Milander
             }
 
             // Create Rows 1-50
-            for (int i = 1; i <= 50; i++)
+            for (int i = 0; i < 50; i++)
             {
-                dataGridView1.Rows.Add(i.ToString(), i.ToString());
+                dataGridView1.Rows.Add();
+                dataGridView1.Rows[i].HeaderCell.Value = (i + 1).ToString();
             }
         }
     }
