@@ -42,10 +42,10 @@
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { A, B, C, D });
-            dataGridView1.Location = new Point(260, 107);
+            dataGridView1.Location = new Point(260, 3);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(360, 225);
+            dataGridView1.Size = new Size(489, 435);
             dataGridView1.TabIndex = 0;
             // 
             // A

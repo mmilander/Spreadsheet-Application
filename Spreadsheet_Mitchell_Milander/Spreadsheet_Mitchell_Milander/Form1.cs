@@ -1,6 +1,10 @@
 namespace Spreadsheet_Mitchell_Milander
 {
+
+// Suppress so Dispose function still works
+#pragma warning disable SA1601 // Partial elements should be documented
     public partial class Spreadsheet : Form
+#pragma warning restore SA1601 // Partial elements should be documented
     {
         public Spreadsheet()
         {
@@ -12,14 +16,21 @@ namespace Spreadsheet_Mitchell_Milander
         {
 
         }
+
         private void InitializeDataGrid() {
             dataGridView1.Columns.Clear();
             dataGridView1.Columns.Clear();
-            for(char i = 'A'; i <= 'Z'; i++)
+            // Create Columns A-Z
+            for (char i = 'A'; i <= 'Z'; i++)
             {
-                dataGridView1.Columns.Add(i+"", i+"");
+                dataGridView1.Columns.Add(i + string.Empty, i + string.Empty);
             }
-            
+
+            // Create Rows 1-50
+            for (int i = 1; i <= 50; i++)
+            {
+                dataGridView1.Rows.Add(i.ToString(), i.ToString());
+            }
         }
     }
 }
