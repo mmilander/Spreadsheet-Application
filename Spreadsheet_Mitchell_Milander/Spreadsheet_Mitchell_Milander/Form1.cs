@@ -6,13 +6,13 @@ namespace Spreadsheet_Mitchell_Milander
 {
 // Suppress so Dispose function still works
 #pragma warning disable SA1601 // Partial elements should be documented
-    public partial class Spreadsheet : Form
+    public partial class SpreadsheetForm : Form
 #pragma warning restore SA1601 // Partial elements should be documented
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Spreadsheet"/> class.
+        /// Initializes a new instance of the <see cref="SpreadsheetForm"/> class.
         /// </summary>
-        public Spreadsheet()
+        public SpreadsheetForm()
         {
             this.InitializeComponent();
             this.InitializeDataGrid();

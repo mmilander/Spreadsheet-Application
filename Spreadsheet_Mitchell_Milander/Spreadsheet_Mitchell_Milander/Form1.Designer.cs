@@ -1,6 +1,6 @@
 ﻿namespace Spreadsheet_Mitchell_Milander
 {
-    partial class Spreadsheet
+    partial class SpreadsheetForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -76,13 +76,13 @@
             D.Name = "D";
             D.Width = 150;
             // 
-            // Spreadsheet
+            // SpreadsheetForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(dataGridView1);
-            Name = "Spreadsheet";
+            Name = "SpreadsheetForm";
             Text = "Form1";
             Load += Spreadsheet_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
