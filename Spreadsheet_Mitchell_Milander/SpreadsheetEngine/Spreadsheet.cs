@@ -22,6 +22,16 @@ namespace SpreadsheetEngine
         /// <param name="col">Column dimension.</param>
         public Spreadsheet(int row, int col)
         {
+            if (row < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(row), "Out of range");
+            }
+
+            if (col < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(col), "Out of range");
+            }
+
             this.arrayCell = new ConcreteCell[row, col];
             for (int rowItr = 0; rowItr < row; rowItr++) // Go through each index and add cell.
             {
