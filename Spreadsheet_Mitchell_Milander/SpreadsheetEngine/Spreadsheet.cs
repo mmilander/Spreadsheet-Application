@@ -2,7 +2,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace Spreadsheet_Mitchell_Milander
+namespace SpreadsheetEngine
 {
     using System;
     using System.ComponentModel;
@@ -13,7 +13,7 @@ namespace Spreadsheet_Mitchell_Milander
     /// </summary>
     public class Spreadsheet
     {
-        private readonly ConcreteCell[,] arrayCell;
+        private readonly ConcreteCell[,] arrayCell; // Creates multidemsnional rectangle array.
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Spreadsheet"/> class.
@@ -80,6 +80,24 @@ namespace Spreadsheet_Mitchell_Milander
 
         private void Cell_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (((ConcreteCell)sender).Text == string.Empty)
+            {
+               ((ConcreteCell)sender).SetValue(string.Empty);
+            }
+            else if (((ConcreteCell)sender).Text[0] != '=')
+            {
+                ((ConcreteCell)sender).SetValue(((ConcreteCell)sender).Text);
+            }
+            else
+            {
+                string tempText = ((ConcreteCell)sender).Text;
+                char tempColChar = tempText[1]; // skip =
+                int tempRow = int.Parse(tempText.Substring(2)) - 1;  // Retrieve any digits after Column Char
+                int tempCol = tempColChar % 'A';
+                string tempValue = this.GetCell(tempRow, tempCol).Value;
+                ((ConcreteCell)sender).SetValue(tempValue);
+            }
+
             this.CellPropertyChanged?.Invoke(sender, e);
         }
     }
