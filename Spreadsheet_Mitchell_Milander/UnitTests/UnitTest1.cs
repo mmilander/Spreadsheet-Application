@@ -23,8 +23,8 @@ public class UnitTest1
     [SetUp]
     public void Setup()
     {
-        this.normalCase = new Spreadsheet(5,5);
-        this.edgeCase = new Spreadsheet(5,5);
+        this.normalCase = new Spreadsheet(5, 5);
+        this.edgeCase = new Spreadsheet(5, 5);
     }
 
     /// <summary>
@@ -41,21 +41,21 @@ public class UnitTest1
     }
 
     /// <summary>
-    /// This tests retrieving the cell from coordinates (0,0) is not null;
+    /// This tests retrieving the cell from coordinates (0,0) is not null.
     /// </summary>
     [Test]
     public void EdgeCase()
     {
-        Cell cellTemp = edgeCase.GetCell(0, 0);
+        Cell cellTemp = this.edgeCase.GetCell(0, 0);
         Assert.IsNotNull(cellTemp);
     }
 
     /// <summary>
-    /// This tests the spreadsheet with negative dimensions
+    /// This tests the spreadsheet with negative dimensions.
     /// </summary>
     [Test]
     public void ExceptionCase()
     {
-        Assert.Throws<ArgumentOutOfRangeException>(() => this.exceptionCase = new Spreadsheet(-1,3));
+        Assert.Throws<ArgumentOutOfRangeException>(() => this.exceptionCase = new Spreadsheet(-1, 3));
     }
 }
