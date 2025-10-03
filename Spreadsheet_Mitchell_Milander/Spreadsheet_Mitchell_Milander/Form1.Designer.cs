@@ -33,6 +33,7 @@
             B = new DataGridViewTextBoxColumn();
             C = new DataGridViewTextBoxColumn();
             D = new DataGridViewTextBoxColumn();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -45,7 +46,7 @@
             dataGridView1.Location = new Point(260, 3);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(489, 435);
+            dataGridView1.Size = new Size(821, 768);
             dataGridView1.TabIndex = 0;
             // 
             // A
@@ -76,11 +77,23 @@
             D.Name = "D";
             D.Width = 150;
             // 
+            // button1
+            // 
+            button1.BackColor = Color.MistyRose;
+            button1.Location = new Point(83, 41);
+            button1.Name = "button1";
+            button1.Size = new Size(112, 34);
+            button1.TabIndex = 1;
+            button1.Text = "Demo Me!";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
+            // 
             // SpreadsheetForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1108, 799);
+            Controls.Add(button1);
             Controls.Add(dataGridView1);
             Name = "SpreadsheetForm";
             Text = "Form1";
@@ -96,5 +109,6 @@
         private DataGridViewTextBoxColumn B;
         private DataGridViewTextBoxColumn C;
         private DataGridViewTextBoxColumn D;
+        private Button button1;
     }
 }

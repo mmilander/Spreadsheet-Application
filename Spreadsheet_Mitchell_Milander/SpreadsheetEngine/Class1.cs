@@ -101,7 +101,11 @@ namespace SpreadsheetEngine
         /// <param name="value">if = then corresponds to formula.</param>
         internal void SetValue(string value)
         {
-            this.value = value;
+            if (this.value != value)
+            {
+                this.value = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.Value)));
+            }
         }
     }
 }

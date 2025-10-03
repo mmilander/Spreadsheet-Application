@@ -59,5 +59,10 @@ namespace Spreadsheet_Mitchell_Milander
                 this.dataGridView1.Rows[i].HeaderCell.Value = (i + 1).ToString();
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.member.Demo();
+        }
     }
 }
