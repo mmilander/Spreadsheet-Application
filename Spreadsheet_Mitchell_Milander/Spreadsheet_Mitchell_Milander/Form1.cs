@@ -3,9 +3,9 @@
 // </copyright>
 namespace Spreadsheet_Mitchell_Milander
 {
-    using SpreadsheetEngine;
     using System;
     using System.ComponentModel;
+    using SpreadsheetEngine;
 
     // Suppress so Dispose function still works
 #pragma warning disable SA1601 // Partial elements should be documented
@@ -60,7 +60,9 @@ namespace Spreadsheet_Mitchell_Milander
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+#pragma warning disable SA1300 // Element should begin with upper-case letter
+        private void button1_Click(object sender, EventArgs e) // Default WinForm function.
+#pragma warning restore SA1300 // Element should begin with upper-case letter
         {
             this.member.Demo();
         }
