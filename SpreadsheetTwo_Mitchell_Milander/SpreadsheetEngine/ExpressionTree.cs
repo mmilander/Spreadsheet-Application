@@ -1,4 +1,6 @@
-﻿using System.Diagnostics.Contracts;
+﻿// <copyright file="ExpressionTree.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace SpreadsheetEngine
 {
@@ -7,6 +9,7 @@ namespace SpreadsheetEngine
     /// </summary>
     public class ExpressionTree
     {
+        private Dictionary<string, double> variables = new Dictionary<string, double>();
 
         public ExpressionTree(string expression)
         {
