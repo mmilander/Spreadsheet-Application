@@ -21,32 +21,41 @@ namespace ExpressionTreeTests
         }
 
         /// <summary>
-        /// Normal Case test.
+        /// Normal case test.
         /// </summary>
-        public void NormalTest()
+        /// <param name="input">input string.</param>
+        /// <param name="expected">expected string.</param>
+        [TestCase("2+4+6", 12.0)]
+        [TestCase("3-1-2", 0.0)]
+        [TestCase("4-3", 1.0)]
+        [TestCase("5*9*6", 270.0)]
+        [TestCase("1*2*3*4", 24.0)]
+        [TestCase("12/2", 6.0)]
+        [TestCase("12/2/3", 2.0)]
+
+        public void NormalTest(string input, double expected)
         {
-            ExpressionTree normalCase = new ExpressionTree("(2+4)/3");
+            ExpressionTree normalCase = new ExpressionTree(input);
             double testNum = normalCase.Evaluate();
-            Assert.That(2.0, Is.EqualTo(testNum));
+            Assert.That(expected, Is.EqualTo(testNum));
         }
 
         /// <summary>
-        /// Edge case test.
+        /// Edge case test using empty string as input.
         /// </summary>
         [Test]
         public void EdgeCase()
         {
-            ExpressionTree edgeCase = new ExpressionTree("");
-            Assert.That(edgeCase, Is.Null);
+            Assert.Throws<ArgumentException>(() => new ExpressionTree(string.Empty));
         }
 
         /// <summary>
-        /// Exception case test.
+        /// Exception case test using invalid operator as input.
         /// </summary>
         [Test]
         public void ExceptionCase()
         {
-            Assert.Throws<Exception>(() => new ExpressionTree("%"));
+            Assert.Throws<ArgumentException>(() => new ExpressionTree("%"));
         }
     }
 }
