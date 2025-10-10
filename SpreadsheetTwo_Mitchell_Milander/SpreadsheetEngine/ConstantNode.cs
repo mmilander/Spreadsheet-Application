@@ -11,7 +11,6 @@ namespace SpreadsheetEngine
     {
         private double value;
 
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ConstantNode"/> class.
         /// </summary>
@@ -41,7 +40,7 @@ namespace SpreadsheetEngine
         /// Overriden Evaluate Class.
         /// </summary>
         /// <param name="variables">Dictionary Object.</param>
-        /// <returns>double</returns>
+        /// <returns>double.</returns>
         public override double Evaluate(Dictionary<string, double> variables)
         {
             return this.value;

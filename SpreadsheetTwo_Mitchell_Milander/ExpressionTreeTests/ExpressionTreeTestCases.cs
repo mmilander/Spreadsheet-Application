@@ -1,4 +1,4 @@
-// <copyright file="UnitTest1.cs" company="ExpressionTreeTests">
+// <copyright file="ExpressionTreeTestCases.cs" company="ExpressionTreeTests">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 

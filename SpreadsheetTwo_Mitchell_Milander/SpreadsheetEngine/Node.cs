@@ -7,7 +7,6 @@ namespace SpreadsheetEngine
     /// <summary>
     /// Asbtract node class.
     /// </summary>
-    /// 
     internal abstract class Node
     {
         /// <summary>

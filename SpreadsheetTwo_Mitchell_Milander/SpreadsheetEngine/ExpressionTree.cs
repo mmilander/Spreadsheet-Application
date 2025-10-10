@@ -32,7 +32,6 @@ namespace SpreadsheetEngine
             this.root = this.BuildTree(this.root, array, op);
         }
 
-
         /// <summary>
         /// Determines which operator is present in String.
         /// </summary>
