@@ -12,6 +12,7 @@ namespace SpreadsheetEngine
     /// </summary>
     public class ExpressionTree
     {
+        private OperatorNodeFactory generateNode;
         private OperatorNode root;
         private Dictionary<string, double> variables = new Dictionary<string, double>();
 
@@ -26,9 +27,10 @@ namespace SpreadsheetEngine
                 throw new ArgumentException("Input is Empty.");
             }
 
+            this.generateNode = new OperatorNodeFactory();
             char op = this.GetOp(expression);
             string[] array = Regex.Split(expression, $@"\{op}");
-            this.root = this.GetOperationNode(op);
+            this.root = this.generateNode.CreateOperatorNode(op);
             this.root = this.BuildTree(this.root, array, op);
         }
 
@@ -114,7 +116,7 @@ namespace SpreadsheetEngine
                 }
                 else
                 {
-                    OperatorNode insertOp = this.GetOperationNode(op);
+                    OperatorNode insertOp = this.generateNode.CreateOperatorNode(op);
                     insertOp.Left = rootPtr;
                     rootPtr = insertOp;
                     rootPtr.Right = insertLeaf;
@@ -123,21 +125,6 @@ namespace SpreadsheetEngine
             }
 
             return rootPtr;
-        }
-
-        private OperatorNode GetOperationNode(char op)
-        {
-            switch (op)
-            {
-                case '+':
-                    return new AdditionOperatorNode();
-                case '-':
-                    return new SubtractionOperatorNode();
-                case '*':
-                    return new MultiplicationOperatorNode();
-                default:
-                    return new DivisionOperatorNode();
-            }
         }
     }
 }

@@ -9,8 +9,8 @@ namespace SpreadsheetEngine
     /// </summary>
     internal abstract class OperatorNode : Node
     {
-        private Node left;
-        private Node right;
+        protected Node left;
+        protected Node right;
 
         /// <summary>
         /// Gets or Sets Left node.
