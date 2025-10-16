@@ -10,14 +10,16 @@ namespace SpreadsheetEngine
     internal class VariableNode : Node
     {
         private string name;
+        private Dictionary<string, double> variables;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VariableNode"/> class.
         /// </summary>
         /// <param name="name">Name value that the node will store. </param>
-        public VariableNode(string name)
+        public VariableNode(string name, ref Dictionary<string, double> variables)
         {
             this.name = name;
+            this.variables = variables;
         }
 
         /// <summary>
@@ -41,11 +43,11 @@ namespace SpreadsheetEngine
         /// </summary>
         /// <param name="variables">Dictionary Object.</param>
         /// <returns>doublevalue.</returns>
-        public override double Evaluate(Dictionary<string, double> variables)
+        public override double Evaluate()
         {
-            if (variables.ContainsKey(this.name))
+            if (this.variables.ContainsKey(this.name))
             {
-                return variables[this.name];
+                return this.variables[this.name];
             }
 
             return 0.0;

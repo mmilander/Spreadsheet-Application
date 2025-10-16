@@ -133,5 +133,35 @@ namespace SpreadsheetEngine
 
             this.CellPropertyChanged?.Invoke(sender, e);
         }
+
+        /// <summary>
+        /// Create a concrete cell.
+        /// </summary>
+        private class ConcreteCell : Cell
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ConcreteCell"/> class.
+            /// </summary>
+            /// <param name="row">Row index.</param>
+            /// <param name="col">Column index.</param>
+            public ConcreteCell(int row, int col)
+                : base(row, col)
+            {
+                // style cop doesn't want blank line.
+            }
+
+            /// <summary>
+            /// This allows only the spreadsheet class to change the value.
+            /// </summary>
+            /// <param name="value">if = then corresponds to formula.</param>
+            private void SetValue(string value)
+            {
+                if (this.Value != value)
+                {
+                    this.value = value;
+                    this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.Value)));
+                }
+            }
+        }
     }
 }

@@ -41,7 +41,7 @@ namespace SpreadsheetEngine
         /// </summary>
         /// <param name="variables">Dictionary Object.</param>
         /// <returns>double.</returns>
-        public override double Evaluate(Dictionary<string, double> variables)
+        public override double Evaluate()
         {
             return this.value;
         }
