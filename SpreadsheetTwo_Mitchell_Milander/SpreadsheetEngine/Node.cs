@@ -14,6 +14,6 @@ namespace SpreadsheetEngine
         /// </summary>
         /// <param name="variables">Dictionary Object.</param>
         /// <returns>double.</returns>
-        public abstract double Evaluate(Dictionary<string, double> variables);
+        public abstract double Evaluate();
     }
 }

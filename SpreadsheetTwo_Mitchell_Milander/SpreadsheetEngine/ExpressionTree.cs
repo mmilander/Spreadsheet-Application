@@ -83,7 +83,7 @@ namespace SpreadsheetEngine
                 return 0;
             }
 
-            return this.root.Evaluate(this.variables);
+            return this.root.Evaluate();
         }
 
         private OperatorNode BuildTree(OperatorNode rootPtr, string[] elements, char op)
@@ -99,7 +99,7 @@ namespace SpreadsheetEngine
                 }
                 else
                 {
-                    insertLeaf = new VariableNode(element); // variable.
+                    insertLeaf = new VariableNode(element, ref this.variables); // variable.
                 }
 
                 if (count == 0) // First element should be added to left.
