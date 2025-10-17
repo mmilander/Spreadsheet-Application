@@ -6,6 +6,7 @@ namespace SpreadsheetEngine
 {
     using System.Linq.Expressions;
     using System.Text.RegularExpressions;
+    using System.Xml.Linq;
 
     /// <summary>
     /// This program creates an expression tree.
@@ -27,14 +28,48 @@ namespace SpreadsheetEngine
             {
                 throw new ArgumentException("Input is Empty.");
             }
+
             this.stackNode = new Stack<Node>();
             this.generateNode = new OperatorNodeFactory();
-            expression = Regex.Replace(expression, @"\s+", ""); // Strip whitespace.
+            expression = Regex.Replace(expression, @"\s+", string.Empty); // Strip whitespace.
             List<string> result = Tokenize(expression);
             result = Shunt(result);
             this.root = this.BuildTree(this.stackNode, result);
-          //  this.root = this.generateNode.CreateOperatorNode(op);
-           // this.root = this.BuildTree(this.root, array, op);
+        }
+
+        /// <summary>
+        /// Determines if character represents an operator.
+        /// </summary>
+        /// <param name="c">First character of a string token.</param>
+        /// <returns>bool.</returns>
+        public static bool IsOperator(char c)
+        {
+            string check = "/-+*";
+            return check.Contains(c);
+        }
+
+        /// <summary>
+        /// Sets the specified variable within the ExpressionTree variables dictionary.
+        /// </summary>
+        /// <param name="variableName">string value.</param>
+        /// <param name="variableValue">double value.</param>
+        public void SetVariable(string variableName, double variableValue)
+        {
+            this.variables[variableName] = variableValue;
+        }
+
+        /// <summary>
+        /// This method evaluates the entire expression tree.
+        /// </summary>
+        /// <returns>double.</returns>
+        public double Evaluate()
+        {
+            if (this.root == null)
+            {
+                return 0;
+            }
+
+            return this.root.Evaluate();
         }
 
         /// <summary>
@@ -42,7 +77,7 @@ namespace SpreadsheetEngine
         /// </summary>
         /// <param name="input">The string expression.</param>
         /// <returns>returns a List of strings.</returns>
-        public static List<string> Tokenize(string input)
+        private static List<string> Tokenize(string input)
         {
             List<string> result = new List<string>();
             string tempOperand = string.Empty;
@@ -58,13 +93,19 @@ namespace SpreadsheetEngine
                     {
                         tempOperand += input[i];
                         i += 1;
-                    } while (i < input.Length && (input[i] >= '0' && input[i] <= '9'));
+                    }
+                    while (i < input.Length && (input[i] >= '0' && input[i] <= '9'));
                     i--;
                     result.Add(tempOperand);
                     tempOperand = string.Empty;
                 }
                 else // Variable logic.
                 {
+                    if (!IsOperand(input[i]))
+                    {
+                        throw new ArgumentException("Invalid Operand");
+                    }
+
                     do
                     {
                         tempOperand += input[i];
@@ -80,12 +121,7 @@ namespace SpreadsheetEngine
             return result;
         }
 
-        /// <summary>
-        /// Implements Shunting Yard Algorithm.
-        /// </summary>
-        /// <param name="input">List of string tokens.</param>
-        /// <returns>returns a list of tokens in postfix notation.</returns>
-        public static List<string> Shunt(List<string> input)
+        private static List<string> Shunt(List<string> input)
         {
             List<string> postfix = new List<string>();
             Stack<string> stack = new Stack<string>();
@@ -144,12 +180,7 @@ namespace SpreadsheetEngine
             return postfix;
         }
 
-        /// <summary>
-        /// Determines if character represents an operand.
-        /// </summary>
-        /// <param name="c">First character of a string token.</param>
-        /// <returns>bool.</returns>
-        public static bool IsOperand(char c)
+        private static bool IsOperand(char c)
         {
             if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z')
                 || (c >= 'a' && c <= 'z'))
@@ -162,24 +193,7 @@ namespace SpreadsheetEngine
             }
         }
 
-        /// <summary>
-        /// Determines if character represents an operator.
-        /// </summary>
-        /// <param name="c">First character of a string token.</param>
-        /// <returns>bool.</returns>
-        public static bool IsOperator(char c)
-        {
-            string check = "/-+*";
-            return check.Contains(c);
-        }
-
-        /// <summary>
-        /// Determines the precedence of the left compared to right, giving both sides an integer value.
-        /// </summary>
-        /// <param name="lhs">char from input string.</param>
-        /// <param name="rhs">char from stack contents.</param>
-        /// <returns>Integere value.</returns>
-        public static int Precedence(char lhs, char rhs)
+        private static int Precedence(char lhs, char rhs) // Determines the precedence of the left compared to right, giving both sides an integer value.
         {
             int lhsValue = 0;
             int rhsValue = 0;
@@ -235,30 +249,6 @@ namespace SpreadsheetEngine
             }
         }
 
-        /// <summary>
-        /// Sets the specified variable within the ExpressionTree variables dictionary.
-        /// </summary>
-        /// <param name="variableName">string value.</param>
-        /// <param name="variableValue">double value.</param>
-        public void SetVariable(string variableName, double variableValue)
-        {
-            this.variables[variableName] = variableValue;
-        }
-
-        /// <summary>
-        /// This method evaluates the entire expression tree.
-        /// </summary>
-        /// <returns>double.</returns>
-        public double Evaluate()
-        {
-            if (this.root == null)
-            {
-                return 0;
-            }
-
-            return this.root.Evaluate();
-        }
-
         private Node BuildTree(Stack<Node> stackNode, List<string> elements)
         {
             foreach (var token in elements)
@@ -270,49 +260,23 @@ namespace SpreadsheetEngine
                     parent.Left = stackNode.Pop();
                     stackNode.Push(parent);
                 }
-                else
+                else // operator node.
                 {
+                    Node insertLeaf;
+                    if (token[0] >= '0' && token[0] <= '9') // number constant.
+                    {
+                        insertLeaf = new ConstantNode(double.Parse(token));
+                    }
+                    else
+                    {
+                        insertLeaf = new VariableNode(token, ref this.variables); // variable.
+                    }
 
+                    stackNode.Push(insertLeaf);
                 }
             }
+
             return stackNode.Pop();
         }
     }
 }
-
-
-/*
- * 
- * int length = elements.Length;
-            int count = 0;
-            foreach (var element in elements)
-            {
-                Node insertLeaf;
-                if (element[0] >= '0' && element[0] <= '9') // number constant.
-                {
-                    insertLeaf = new ConstantNode(double.Parse(element));
-                }
-                else
-                {
-                    insertLeaf = new VariableNode(element, ref this.variables); // variable.
-                }
-
-                if (count == 0) // First element should be added to left.
-                {
-                    rootPtr.Left = insertLeaf;
-                    count++;
-                }
-                else if (count == 1) // First element should be addedd to right.
-                {
-                    rootPtr.Right = insertLeaf;
-                    count++;
-                }
-                else
-                {
-                    OperatorNode insertOp = this.generateNode.CreateOperatorNode(op);
-                    insertOp.Left = rootPtr;
-                    rootPtr = insertOp;
-                    rootPtr.Right = insertLeaf;
-                    count++;
-                }
- * */
