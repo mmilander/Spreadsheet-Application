@@ -9,8 +9,19 @@ namespace SpreadsheetEngine
     /// </summary>
     internal abstract class OperatorNode : Node
     {
-        protected Node left;
-        protected Node right;
+        /// <summary>
+        /// Left branch.
+        /// </summary>
+#pragma warning disable SA1401 // Fields should be private
+        protected Node left; // The TA Chii said these fields should be protected.
+#pragma warning disable SA1401 // Fields should be private
+
+        /// <summary>
+        /// Right branch.
+        /// </summary>
+#pragma warning disable SA1401 // Fields should be private
+        protected Node right; // The TA Chii said these fields should be protected.
+#pragma warning restore SA1401 // Fields should be private
 
         /// <summary>
         /// Gets or Sets Left node.

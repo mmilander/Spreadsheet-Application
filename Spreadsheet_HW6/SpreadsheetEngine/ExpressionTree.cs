@@ -13,7 +13,8 @@ namespace SpreadsheetEngine
     public class ExpressionTree
     {
         private OperatorNodeFactory generateNode;
-        private OperatorNode root;
+        private Stack<Node> stackNode;
+        private Node root;
         private Dictionary<string, double> variables = new Dictionary<string, double>();
 
         /// <summary>
@@ -26,42 +27,212 @@ namespace SpreadsheetEngine
             {
                 throw new ArgumentException("Input is Empty.");
             }
-
+            this.stackNode = new Stack<Node>();
             this.generateNode = new OperatorNodeFactory();
-            char op = this.GetOp(expression);
-            string[] array = Regex.Split(expression, $@"\{op}");
-            this.root = this.generateNode.CreateOperatorNode(op);
-            this.root = this.BuildTree(this.root, array, op);
+            expression = Regex.Replace(expression, @"\s+", ""); // Strip whitespace.
+            List<string> result = Tokenize(expression);
+            result = Shunt(result);
+            this.root = this.BuildTree(this.stackNode, result);
+          //  this.root = this.generateNode.CreateOperatorNode(op);
+           // this.root = this.BuildTree(this.root, array, op);
         }
 
         /// <summary>
-        /// Determines which operator is present in String.
+        /// Parses the operators, operands, and parens from string.
         /// </summary>
-        /// <param name="expression">Input string.</param>
-        /// <returns>char.</returns>
-        public char GetOp(string expression)
+        /// <param name="input">The string expression.</param>
+        /// <returns>returns a List of strings.</returns>
+        public static List<string> Tokenize(string input)
         {
-            if (expression.Contains('+'))
+            List<string> result = new List<string>();
+            string tempOperand = string.Empty;
+            for (int i = 0; i < input.Length; i++)
             {
-                return '+';
+                if (input[i] == '(' || input[i] == ')' || IsOperator(input[i]))
+                {
+                    result.Add(input[i].ToString());
+                }
+                else if (input[i] >= '0' && input[i] <= '9') // Numerical operand logic.
+                {
+                    do
+                    {
+                        tempOperand += input[i];
+                        i += 1;
+                    } while (i < input.Length && (input[i] >= '0' && input[i] <= '9'));
+                    i--;
+                    result.Add(tempOperand);
+                    tempOperand = string.Empty;
+                }
+                else // Variable logic.
+                {
+                    do
+                    {
+                        tempOperand += input[i];
+                        i += 1;
+                    }
+                    while (i < input.Length && IsOperand(input[i]));
+                    i--;
+                    result.Add(tempOperand);
+                    tempOperand = string.Empty;
+                }
             }
 
-            if (expression.Contains('-'))
+            return result;
+        }
+
+        /// <summary>
+        /// Implements Shunting Yard Algorithm.
+        /// </summary>
+        /// <param name="input">List of string tokens.</param>
+        /// <returns>returns a list of tokens in postfix notation.</returns>
+        public static List<string> Shunt(List<string> input)
+        {
+            List<string> postfix = new List<string>();
+            Stack<string> stack = new Stack<string>();
+            foreach (string val in input)
             {
-                return '-';
+                string tempStackContents = "\0";
+                if (IsOperand(val[0]))
+                {
+                    postfix.Add(val);
+                }
+                else if (val[0] == '(') // save on stack.
+                {
+                    stack.Push(val);
+                }
+                else if (val[0] == ')') // discard right paren.
+                {
+                    while (stack.Count != 0 && tempStackContents[0] != '(')
+                    {
+                        tempStackContents = stack.Pop();
+                        if (tempStackContents[0] != '(')
+                        {
+                            postfix.Add(tempStackContents);
+                        }
+                    }
+
+                    tempStackContents = "\0";
+                }
+
+                if (IsOperator(val[0]))
+                {
+                    if (stack.Count == 0 || stack.Peek()[0] == '(')
+                    {
+                        stack.Push(val);
+                    }
+                    else if (stack.Count != 0 && (Precedence(val[0], stack.Peek()[0]) == 2))
+                    {
+                        stack.Push(val);
+                    }
+                    else
+                    {
+                        while (stack.Count != 0 && (Precedence(val[0], stack.Peek()[0]) < 2))
+                        {
+                            postfix.Add(stack.Pop());
+                        }
+
+                        stack.Push(val);
+                    }
+                }
             }
 
-            if (expression.Contains('*'))
+            while (stack.Count != 0)
             {
-                return '*';
+                postfix.Add(stack.Pop());
             }
 
-            if (expression.Contains('/'))
+            return postfix;
+        }
+
+        /// <summary>
+        /// Determines if character represents an operand.
+        /// </summary>
+        /// <param name="c">First character of a string token.</param>
+        /// <returns>bool.</returns>
+        public static bool IsOperand(char c)
+        {
+            if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z')
+                || (c >= 'a' && c <= 'z'))
             {
-                return '/';
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Determines if character represents an operator.
+        /// </summary>
+        /// <param name="c">First character of a string token.</param>
+        /// <returns>bool.</returns>
+        public static bool IsOperator(char c)
+        {
+            string check = "/-+*";
+            return check.Contains(c);
+        }
+
+        /// <summary>
+        /// Determines the precedence of the left compared to right, giving both sides an integer value.
+        /// </summary>
+        /// <param name="lhs">char from input string.</param>
+        /// <param name="rhs">char from stack contents.</param>
+        /// <returns>Integere value.</returns>
+        public static int Precedence(char lhs, char rhs)
+        {
+            int lhsValue = 0;
+            int rhsValue = 0;
+            switch (lhs)
+            {
+                case '/':
+                    lhsValue = 3;
+                    break;
+                case '*':
+                    lhsValue = 2;
+                    break;
+                case '+':
+                    lhsValue = 1;
+                    break;
+                case '-':
+                    rhsValue = 1;
+                    break;
+                default:
+                    lhsValue = 0;
+                    break;
             }
 
-            throw new ArgumentException("Invalid Operator.");
+            switch (rhs)
+            {
+                case '/':
+                    rhsValue = 3;
+                    break;
+                case '*':
+                    rhsValue = 2;
+                    break;
+                case '+':
+                    rhsValue = 1;
+                    break;
+                case '-':
+                    rhsValue = 1;
+                    break;
+                default:
+                    rhsValue = 0;
+                    break;
+            }
+
+            if (lhsValue < rhsValue)
+            {
+                return 0; // lhs has lower precedence.
+            }
+            else if (lhsValue == rhsValue)
+            {
+                return 1; // lhs & rhs have same precedence.
+            }
+            else
+            {
+                return 2; // lhs has greater precedence.
+            }
         }
 
         /// <summary>
@@ -88,9 +259,31 @@ namespace SpreadsheetEngine
             return this.root.Evaluate();
         }
 
-        private OperatorNode BuildTree(OperatorNode rootPtr, string[] elements, char op)
+        private Node BuildTree(Stack<Node> stackNode, List<string> elements)
         {
-            int length = elements.Length;
+            foreach (var token in elements)
+            {
+                if (IsOperator(token[0]))
+                {
+                    OperatorNode parent = this.generateNode.CreateOperatorNode(token[0]);
+                    parent.Right = stackNode.Pop();
+                    parent.Left = stackNode.Pop();
+                    stackNode.Push(parent);
+                }
+                else
+                {
+
+                }
+            }
+            return stackNode.Pop();
+        }
+    }
+}
+
+
+/*
+ * 
+ * int length = elements.Length;
             int count = 0;
             foreach (var element in elements)
             {
@@ -122,9 +315,4 @@ namespace SpreadsheetEngine
                     rootPtr.Right = insertLeaf;
                     count++;
                 }
-            }
-
-            return rootPtr;
-        }
-    }
-}
+ * */

@@ -28,10 +28,10 @@ namespace ExpressionTreeTests
         [TestCase("2+4+6", 12.0)]
         [TestCase("3-1-2", 0.0)]
         [TestCase("4-3", 1.0)]
-        [TestCase("(5*9)-6", 270.0)]
+        [TestCase("(5*9)-6", 39.0)]
         [TestCase("1*2*3*4", 24.0)]
         [TestCase("12/2", 6.0)]
-        [TestCase("(12/2)*3", 2.0)]
+        [TestCase("(12/2)*3", 18.0)]
 
         public void NormalTest(string input, double expected)
         {
