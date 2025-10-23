@@ -203,13 +203,13 @@ namespace SpreadsheetEngine
                     lhsValue = 3;
                     break;
                 case '*':
-                    lhsValue = 2;
+                    lhsValue = 3;
                     break;
                 case '+':
                     lhsValue = 1;
                     break;
                 case '-':
-                    rhsValue = 1;
+                    lhsValue = 1;
                     break;
                 default:
                     lhsValue = 0;
@@ -222,7 +222,7 @@ namespace SpreadsheetEngine
                     rhsValue = 3;
                     break;
                 case '*':
-                    rhsValue = 2;
+                    rhsValue = 3;
                     break;
                 case '+':
                     rhsValue = 1;

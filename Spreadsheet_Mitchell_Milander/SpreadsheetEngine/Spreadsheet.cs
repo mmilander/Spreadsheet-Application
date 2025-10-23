@@ -137,7 +137,7 @@ namespace SpreadsheetEngine
         /// <summary>
         /// Create a concrete cell.
         /// </summary>
-        private class ConcreteCell : Cell
+        internal class ConcreteCell : Cell
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="ConcreteCell"/> class.
@@ -149,12 +149,12 @@ namespace SpreadsheetEngine
             {
                 // style cop doesn't want blank line.
             }
-
+            public event PropertyChangedEventHandler? PropertyChanged;
             /// <summary>
             /// This allows only the spreadsheet class to change the value.
             /// </summary>
             /// <param name="value">if = then corresponds to formula.</param>
-            private void SetValue(string value)
+            internal void SetValue(string value)
             {
                 if (this.Value != value)
                 {

@@ -22,7 +22,7 @@ namespace SpreadsheetEngine
         /// <summary>
         /// Fields for Cell Class.
         /// </summary>
-        private string value; // Directions say protected
+        protected string value; // Directions say protected
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Cell"/> class.
