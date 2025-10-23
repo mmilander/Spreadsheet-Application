@@ -48,8 +48,8 @@
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.Size = new Size(821, 768);
             dataGridView1.TabIndex = 0;
-            dataGridView1.CellBeginEdit += dataGridView1_CellBeginEdit;
-            dataGridView1.CellEndEdit += dataGridView1_CellEndEdit;
+            dataGridView1.CellBeginEdit += DataGridView1_CellBeginEdit;
+            dataGridView1.CellEndEdit += DataGridView1_CellEndEdit;
             // 
             // A
             // 

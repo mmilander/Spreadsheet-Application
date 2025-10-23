@@ -81,16 +81,18 @@ namespace Spreadsheet_Mitchell_Milander
         private void button1_Click(object sender, EventArgs e) // Default WinForm function.
 #pragma warning restore SA1300 // Element should begin with upper-case letter
         {
-            this.member.Demo();
+          //  this.member.Demo();
         }
 
-        private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+ 
+
+        private void DataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             Cell tempCell = this.member.GetCell(e.RowIndex, e.ColumnIndex);
             this.dataGridView1.Rows[tempCell.RowIndex].Cells[tempCell.ColumnIndex].Value = tempCell.Text;
         }
 
-        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        private void DataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             Cell tempCell = this.member.GetCell(e.RowIndex, e.ColumnIndex);
             string tempValue = this.dataGridView1.Rows[tempCell.RowIndex].Cells[tempCell.ColumnIndex].Value.ToString();
