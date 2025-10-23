@@ -121,7 +121,7 @@ namespace SpreadsheetEngine
             return result;
         }
 
-        private static List<string> Shunt(List<string> input)
+        private List<string> Shunt(List<string> input)
         {
             List<string> postfix = new List<string>();
             Stack<string> stack = new Stack<string>();
@@ -156,13 +156,13 @@ namespace SpreadsheetEngine
                     {
                         stack.Push(val);
                     }
-                    else if (stack.Count != 0 && (Precedence(val[0], stack.Peek()[0]) == 2))
+                    else if (stack.Count != 0 && (this.generateNode.Precedence(val[0], stack.Peek()[0]) == 2))
                     {
                         stack.Push(val);
                     }
                     else
                     {
-                        while (stack.Count != 0 && (Precedence(val[0], stack.Peek()[0]) < 2))
+                        while (stack.Count != 0 && (this.generateNode.Precedence(val[0], stack.Peek()[0]) < 2))
                         {
                             postfix.Add(stack.Pop());
                         }
@@ -190,62 +190,6 @@ namespace SpreadsheetEngine
             else
             {
                 return false;
-            }
-        }
-
-        private static int Precedence(char lhs, char rhs) // Determines the precedence of the left compared to right, giving both sides an integer value.
-        {
-            int lhsValue = 0;
-            int rhsValue = 0;
-            switch (lhs)
-            {
-                case '/':
-                    lhsValue = 3;
-                    break;
-                case '*':
-                    lhsValue = 3;
-                    break;
-                case '+':
-                    lhsValue = 1;
-                    break;
-                case '-':
-                    lhsValue = 1;
-                    break;
-                default:
-                    lhsValue = 0;
-                    break;
-            }
-
-            switch (rhs)
-            {
-                case '/':
-                    rhsValue = 3;
-                    break;
-                case '*':
-                    rhsValue = 3;
-                    break;
-                case '+':
-                    rhsValue = 1;
-                    break;
-                case '-':
-                    rhsValue = 1;
-                    break;
-                default:
-                    rhsValue = 0;
-                    break;
-            }
-
-            if (lhsValue < rhsValue)
-            {
-                return 0; // lhs has lower precedence.
-            }
-            else if (lhsValue == rhsValue)
-            {
-                return 1; // lhs & rhs have same precedence.
-            }
-            else
-            {
-                return 2; // lhs has greater precedence.
             }
         }
 
