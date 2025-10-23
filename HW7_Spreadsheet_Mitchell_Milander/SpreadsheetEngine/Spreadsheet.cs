@@ -99,45 +99,6 @@ namespace SpreadsheetEngine
             this.arrayCell[rowIndex, colIndex].Text = text;
         }
 
-        /// <summary>
-        /// This demo's the current part of the project.
-        /// </summary>
-        public void Demo()
-        {
-
-            this.arrayCell[0, 0].Text = "10";
-            this.arrayCell[1, 0].Text = "5";
-            this.arrayCell[2, 0].Text = "6";
-            this.arrayCell[0, 1].Text = "=A1";
-           /* Random genRan = new Random();
-            int ranRow = 0;
-            int ranCol = 0;
-
-            for (int i = 0; i < this.RowCount; i++)
-            {
-                ranRow = genRan.Next(this.RowCount);
-                ranCol = genRan.Next(this.ColumnCount);
-                this.arrayCell[ranRow, ranCol].Text = "Fearless";
-            }
-
-            for (int i = 0; i < this.RowCount; i++)
-            {
-                this.arrayCell[i, 1].Text = "This is Cell B" + (i + 1).ToString();
-                this.arrayCell[i, 0].Text = "=B" + (i + 1).ToString();
-            }*/
-        }
-
-        /// <summary>
-        /// This demo's the current part of the project.
-        /// </summary>
-       /* public void DisplayValues()
-        {
-            for (int i = 0; i < this.RowCount; i++)
-            {
-                for (int i = 0; i < this.RowCount; i++)
-            }
-        }*/
-
         private void Cell_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (((ConcreteCell)sender).Text == string.Empty)
