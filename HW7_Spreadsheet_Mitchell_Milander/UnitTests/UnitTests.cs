@@ -40,10 +40,10 @@ public class UnitTest
     [Test]
     public void TestNormalCaseResult()
     {
-        this.normalCaseSpreadsheet.GetCell(0, 0).Text = "A1";
+        this.normalCaseSpreadsheet.GetCell(0, 0).Text = "10";
         this.normalCaseSpreadsheet.GetCell(0, 1).Text = "=A1";
         string tempName = this.normalCaseSpreadsheet.GetCell(0, 1).Value;
-        Assert.That(tempName, Is.EqualTo("A1")); // Since cell (0,1) value should update to A1
+        Assert.That(tempName, Is.EqualTo("10")); // Since cell (0,1) value should update to A1
     }
 
     /// <summary>
