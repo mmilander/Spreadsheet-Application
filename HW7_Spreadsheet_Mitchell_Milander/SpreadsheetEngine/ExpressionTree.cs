@@ -59,6 +59,15 @@ namespace SpreadsheetEngine
         }
 
         /// <summary>
+        /// This method returns the list of Variable keys.
+        /// </summary>
+        /// <returns>double.</returns>
+        public List<string> GetVariableList()
+        {
+            return this.variables.Select(variable => variable.Key).ToList();
+        }
+
+        /// <summary>
         /// This method evaluates the entire expression tree.
         /// </summary>
         /// <returns>double.</returns>

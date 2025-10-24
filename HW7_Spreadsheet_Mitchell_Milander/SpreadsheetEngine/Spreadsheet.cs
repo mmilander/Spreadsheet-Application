@@ -113,36 +113,26 @@ namespace SpreadsheetEngine
             {
 
                 string tempText = ((ConcreteCell)sender).Text;
-                string tempOperand = string.Empty;
                 string expression = tempText.Substring(1);
                 ExpressionTree tree = new ExpressionTree(expression);
-                for (int i = 0; i < expression.Length; i++) // extract variables
-                {
-                    if (expression[i] >= 'A' && expression[i] <= 'Z')
-                    {
-                        do
-                        {
-                            tempOperand += expression[i];
-                            i += 1;
-                        }
-                        while (i < expression.Length && (expression[i] >= '0' && expression[i] <= '9'));
-                        i--;
+                List<string> list = tree.GetVariableList();
 
-                        // Set value of variable.
-                        char tempColChar = tempOperand[0];
-                        int tempRow = int.Parse(tempOperand.Substring(1)) - 1;  // Retrieve any digits after Column Char
-                        int tempCol = tempColChar % 'A';
-                        string tempValue = this.GetCell(tempRow, tempCol).Value;
-                        double number;
-                        if (double.TryParse(tempValue, out number))
-                        {
-                            tree.SetVariable(tempOperand, number);
-                        }
-                        else
-                        {
-                            // implement Exception logic for next HW.
-                        }
-                        tempOperand = string.Empty;
+                foreach (string variable in list)
+                {
+                    // Set value of variable.
+                    char tempColChar = variable[0];
+                    int tempRow = int.Parse(variable.Substring(1)) - 1;  // Retrieve any digits after Column Char
+                    int tempCol = tempColChar % 'A';
+                    string tempValue = this.GetCell(tempRow, tempCol).Value;
+
+                    double number;
+                    if (double.TryParse(tempValue, out number))
+                    {
+                        tree.SetVariable(variable, number);
+                    }
+                    else
+                    {
+                        // implement Exception logic for next HW.
                     }
                 }
 
