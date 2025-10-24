@@ -14,10 +14,10 @@ namespace SpreadsheetEngine
     public abstract class Cell : INotifyPropertyChanged // Supress because I am unsure how to handle.
 #pragma warning restore SA1649 // File name should match first type name
     {
-        private string text; // Directions say protected
-        private string value; // Directions say protected
         private readonly int rowIndex;
         private readonly int columnIndex;
+        private string text; // Directions say protected
+        private string value; // Directions say protected
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Cell"/> class.

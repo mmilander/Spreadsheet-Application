@@ -4,10 +4,10 @@
 
 namespace SpreadsheetEngine
 {
-    using SpreadsheetEngine;
     using System;
     using System.ComponentModel;
     using System.Linq;
+    using SpreadsheetEngine;
 
     /// <summary>
     /// This class serves as the container for 2D cells.
@@ -115,7 +115,6 @@ namespace SpreadsheetEngine
             }
             else
             {
-
                 string tempText = ((ConcreteCell)sender).Text;
                 string expression = tempText.Substring(1);
                 ExpressionTree tree = new ExpressionTree(expression);
@@ -124,7 +123,7 @@ namespace SpreadsheetEngine
                 int senderRow = ((ConcreteCell)sender).RowIndex;
                 int senderCol = ((ConcreteCell)sender).ColumnIndex;
 
-                if(!dependencyTable.Contains(new Tuple<int,int>(senderRow, senderCol)))
+                if (!this.dependencyTable.Contains(new Tuple<int, int>(senderRow, senderCol)))
                 {
                     this.dependencyTable.Add(new Tuple<int, int>(senderRow, senderCol)); // add Cell cordinates of listener.
                 }

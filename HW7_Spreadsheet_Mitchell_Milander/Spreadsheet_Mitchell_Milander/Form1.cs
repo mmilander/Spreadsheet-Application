@@ -3,9 +3,9 @@
 // </copyright>
 namespace Spreadsheet_Mitchell_Milander
 {
-    using SpreadsheetEngine;
     using System;
     using System.ComponentModel;
+    using SpreadsheetEngine;
 
     // Suppress so Dispose function still works
 #pragma warning disable SA1601 // Partial elements should be documented

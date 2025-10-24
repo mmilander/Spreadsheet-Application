@@ -33,7 +33,7 @@ namespace SpreadsheetEngine
             this.generateNode = new OperatorNodeFactory();
             expression = Regex.Replace(expression, @"\s+", string.Empty); // Strip whitespace.
             List<string> result = Tokenize(expression);
-            result = Shunt(result);
+            result = this.Shunt(result);
             this.root = this.BuildTree(this.stackNode, result);
         }
 
@@ -79,6 +79,19 @@ namespace SpreadsheetEngine
             }
 
             return this.root.Evaluate();
+        }
+
+        private static bool IsOperand(char c)
+        {
+            if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z')
+                || (c >= 'a' && c <= 'z'))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -197,19 +210,6 @@ namespace SpreadsheetEngine
             }
 
             return postfix;
-        }
-
-        private static bool IsOperand(char c)
-        {
-            if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z')
-                || (c >= 'a' && c <= 'z'))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
 
         private Node BuildTree(Stack<Node> stackNode, List<string> elements)

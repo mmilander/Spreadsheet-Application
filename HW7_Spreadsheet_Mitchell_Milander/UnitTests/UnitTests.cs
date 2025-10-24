@@ -1,17 +1,17 @@
-// <copyright file="UnitTest.cs" company="PlaceholderCompany">
+// <copyright file="UnitTests.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using System.Linq.Expressions;
+using System.Reflection;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using SpreadsheetEngine;
-using System.Linq.Expressions;
-using System.Reflection;
 
 /// <summary>
 /// This program provides the testing framework for SpreadSheet Cell Class.
 /// </summary>
-public class UnitTest
+public class UnitTests
 {
     // Suppressed this warning about having a [Teardown] method because
     // I am unsure how to handle it.
@@ -31,7 +31,6 @@ public class UnitTest
         this.edgeCaseSpreadsheet = new Spreadsheet(5, 5);
         this.objectUnderTest = new ExpressionTree("2 + 4 + 1");
     }
-
 
     /// <summary>
     /// This tests that when changing one cell, the event is triggered
@@ -91,7 +90,6 @@ public class UnitTest
     [Test]
     public void EdgeCaseExpressionTree()
     {
-
         Assert.Throws<ArgumentException>(() => new ExpressionTree(string.Empty));
     }
 
@@ -109,7 +107,6 @@ public class UnitTest
     /// </summary>
     /// <param name="input">input string.</param>
     /// <param name="expected">expected string.</param>
-
     public void NormalTestShuntingYard()
     {
         List<string> input = new List<string> { "1", "+", "(", "6", "/", "2", "*", "3", ")" };
