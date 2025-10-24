@@ -21,6 +21,10 @@ namespace SpreadsheetEngine
         {
             this.name = name;
             this.variables = variables;
+            if (!variables.ContainsKey(name))
+            {
+                variables[name] = 0.0;
+            }
         }
 
         /// <summary>
