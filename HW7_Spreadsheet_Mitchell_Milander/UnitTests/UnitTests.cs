@@ -112,10 +112,10 @@ public class UnitTest
 
     public void NormalTestShuntingYard()
     {
-        List<string> input = new List<string> { "2", "+", "(", "6", "/", "2", "*", "3", ")" };
-        List<string> comp = new List<string> { "2", "6", "2", "/", "3", "*", "+" };
+        List<string> input = new List<string> { "1", "+", "(", "6", "/", "2", "*", "3", ")" };
+        List<string> comp = new List<string> { "1", "6", "2", "/", "3", "*", "+" };
         MethodInfo methodInfo = this.GetMethod("Shunt", new Type[] { typeof(List<string>) });
-        CollectionAssert.AreEqual(comp, (List<string>)methodInfo.Invoke(objectUnderTest, new object[] { input }));
+        CollectionAssert.AreEqual(comp, (List<string>)methodInfo.Invoke(this.objectUnderTest, new object[] { input }));
     }
 
     /// <summary>
@@ -126,7 +126,7 @@ public class UnitTest
     {
         MethodInfo methodInfo = this.GetMethod("Shunt", new Type[] { typeof(List<string>) });
         List<string> comp = new List<string>();
-        CollectionAssert.AreEqual(comp, (List<string>)methodInfo.Invoke(objectUnderTest, new object[] { comp }));
+        CollectionAssert.AreEqual(comp, (List<string>)methodInfo.Invoke(this.objectUnderTest, new object[] { comp }));
     }
 
     /// <summary>
@@ -136,7 +136,7 @@ public class UnitTest
     public void ExceptionCaseShuntingYard()
     {
         MethodInfo methodInfo = this.GetMethod("Shunt", new Type[] { typeof(List<string>) });
-        Assert.Throws<TargetInvocationException>(() => methodInfo.Invoke(objectUnderTest, new object[] { null }));
+        Assert.Throws<TargetInvocationException>(() => methodInfo.Invoke(this.objectUnderTest, new object[] { null }));
     }
 
     private MethodInfo GetMethod(string methodName, Type[] parameterTypes)
