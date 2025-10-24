@@ -3,8 +3,10 @@
 // </copyright>
 
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 using SpreadsheetEngine;
 using System.Linq.Expressions;
+using System.Reflection;
 
 /// <summary>
 /// This program provides the testing framework for SpreadSheet Cell Class.
@@ -14,9 +16,10 @@ public class UnitTest
     // Suppressed this warning about having a [Teardown] method because
     // I am unsure how to handle it.
 #pragma warning disable NUnit1032 // An IDisposable field/property should be Disposed in a TearDown method
-    private Spreadsheet normalCase;
-    private Spreadsheet edgeCase;
-    private Spreadsheet? exceptionCase;
+    private Spreadsheet normalCaseSpreadsheet;
+    private Spreadsheet edgeCaseSpreadsheet;
+    private Spreadsheet? exceptionCaseSpreadsheet;
+    private ExpressionTree objectUnderTest;
 #pragma warning restore NUnit1032 // An IDisposable field/property should be Disposed in a TearDown method.
     /// <summary>
     /// This method provides the initial setup for the testing.
@@ -24,8 +27,9 @@ public class UnitTest
     [SetUp]
     public void Setup()
     {
-        this.normalCase = new Spreadsheet(5, 5);
-        this.edgeCase = new Spreadsheet(5, 5);
+        this.normalCaseSpreadsheet = new Spreadsheet(5, 5);
+        this.edgeCaseSpreadsheet = new Spreadsheet(5, 5);
+        this.objectUnderTest = new ExpressionTree("2 + 4 + 1");
     }
 
 
@@ -36,9 +40,9 @@ public class UnitTest
     [Test]
     public void TestNormalCaseResult()
     {
-        this.normalCase.GetCell(0, 0).Text = "A1";
-        this.normalCase.GetCell(0, 1).Text = "=A1";
-        string tempName = this.normalCase.GetCell(0, 1).Value;
+        this.normalCaseSpreadsheet.GetCell(0, 0).Text = "A1";
+        this.normalCaseSpreadsheet.GetCell(0, 1).Text = "=A1";
+        string tempName = this.normalCaseSpreadsheet.GetCell(0, 1).Value;
         Assert.That(tempName, Is.EqualTo("A1")); // Since cell (0,1) value should update to A1
     }
 
@@ -48,7 +52,7 @@ public class UnitTest
     [Test]
     public void EdgeCaseResult()
     {
-        Cell cellTemp = this.edgeCase.GetCell(0, 0);
+        Cell cellTemp = this.edgeCaseSpreadsheet.GetCell(0, 0);
         Assert.IsNotNull(cellTemp);
     }
 
@@ -58,11 +62,11 @@ public class UnitTest
     [Test]
     public void ExceptionCaseResult()
     {
-        Assert.Throws<ArgumentOutOfRangeException>(() => this.exceptionCase = new Spreadsheet(-1, 3));
+        Assert.Throws<ArgumentOutOfRangeException>(() => this.exceptionCaseSpreadsheet = new Spreadsheet(-1, 3));
     }
 
     /// <summary>
-    /// Normal case test.
+    /// Normal case test of ExpressionTree.
     /// </summary>
     /// <param name="input">input string.</param>
     /// <param name="expected">expected string.</param>
@@ -76,7 +80,8 @@ public class UnitTest
 
     public void NormalTestExpressionTree(string input, double expected)
     {
-        double testNum = this.normalCase.Evaluate(input);
+        ExpressionTree normalCaseExpressionTree = new ExpressionTree(input);
+        double testNum = normalCaseExpressionTree.Evaluate();
         Assert.That(expected, Is.EqualTo(testNum));
     }
 
@@ -86,7 +91,8 @@ public class UnitTest
     [Test]
     public void EdgeCaseExpressionTree()
     {
-        Assert.Throws<ArgumentException>(() => this.edgeCase.Evaluate((string.Empty)));
+
+        Assert.Throws<ArgumentException>(() => new ExpressionTree(string.Empty));
     }
 
     /// <summary>
@@ -95,8 +101,7 @@ public class UnitTest
     [Test]
     public void ExceptionCaseExpressionTree()
     {
-        this.exceptionCase = new Spreadsheet(5, 5);
-        Assert.Throws<ArgumentException>(() => this.exceptionCase.Evaluate("%"));
+        Assert.Throws<ArgumentException>(() => new ExpressionTree("%"));
     }
 
     /// <summary>
@@ -107,18 +112,21 @@ public class UnitTest
 
     public void NormalTestShuntingYard()
     {
-       // List<string> input = {}
-      //  double testNum = this.normalCase.Evaluate(input);
-       // Assert.That(expected, Is.EqualTo(testNum));
+        List<string> input = new List<string> { "2", "+", "(", "6", "/", "2", "*", "3", ")" };
+        List<string> comp = new List<string> { "2", "6", "2", "/", "3", "*", "+" };
+        MethodInfo methodInfo = this.GetMethod("Shunt", new Type[] { typeof(List<string>) });
+        CollectionAssert.AreEqual(comp, (List<string>)methodInfo.Invoke(objectUnderTest, new object[] { input }));
     }
 
     /// <summary>
-    /// Edge case test for private Shunting Yard Algorithm.
+    /// Edge case [empty list] test for private Shunting Yard Algorithm.
     /// </summary>
     [Test]
     public void EdgeCaseShuntingYard()
     {
-        //Assert.Throws<ArgumentException>(() => this.edgeCase.Evaluate((string.Empty)));
+        MethodInfo methodInfo = this.GetMethod("Shunt", new Type[] { typeof(List<string>) });
+        List<string> comp = new List<string>();
+        CollectionAssert.AreEqual(comp, (List<string>)methodInfo.Invoke(objectUnderTest, new object[] { comp }));
     }
 
     /// <summary>
@@ -127,7 +135,23 @@ public class UnitTest
     [Test]
     public void ExceptionCaseShuntingYard()
     {
-        //this.exceptionCase = new Spreadsheet(5, 5);
-        //Assert.Throws<ArgumentException>(() => this.exceptionCase.Evaluate("%"));
+        MethodInfo methodInfo = this.GetMethod("Shunt", new Type[] { typeof(List<string>) });
+        Assert.Throws<TargetInvocationException>(() => methodInfo.Invoke(objectUnderTest, new object[] { null }));
+    }
+
+    private MethodInfo GetMethod(string methodName, Type[] parameterTypes)
+    {
+        if (string.IsNullOrWhiteSpace(methodName))
+        {
+            Assert.Fail("methodName cannot be null or whitespace");
+        }
+
+        var method = this.objectUnderTest.GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance, parameterTypes);
+        if (method == null)
+        {
+            Assert.Fail(string.Format("{0} method not found", methodName));
+        }
+
+        return method;
     }
 }

@@ -123,6 +123,16 @@ namespace SpreadsheetEngine
 
         private List<string> Shunt(List<string> input)
         {
+            if (input == null)
+            {
+                throw new ArgumentException("List is null");
+            }
+
+            if (input.Count == 0)
+            {
+                return new List<string>();
+            }
+
             List<string> postfix = new List<string>();
             Stack<string> stack = new Stack<string>();
             foreach (string val in input)
