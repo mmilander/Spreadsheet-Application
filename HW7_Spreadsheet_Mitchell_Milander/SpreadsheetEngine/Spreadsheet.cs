@@ -4,9 +4,10 @@
 
 namespace SpreadsheetEngine
 {
+    using SpreadsheetEngine;
     using System;
     using System.ComponentModel;
-    using SpreadsheetEngine;
+    using System.Linq;
 
     /// <summary>
     /// This class serves as the container for 2D cells.
@@ -14,6 +15,8 @@ namespace SpreadsheetEngine
     public class Spreadsheet
     {
         private readonly ConcreteCell[,] arrayCell; // Creates multidemsnional rectangle array.
+        private List<Tuple<int, int>> dependencyTable = new List<Tuple<int, int>>();
+        private bool reevaluate;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Spreadsheet"/> class.
@@ -22,6 +25,7 @@ namespace SpreadsheetEngine
         /// <param name="col">Column dimension.</param>
         public Spreadsheet(int row, int col)
         {
+            this.reevaluate = false;
             if (row < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(row), "Out of range");
@@ -117,14 +121,24 @@ namespace SpreadsheetEngine
                 ExpressionTree tree = new ExpressionTree(expression);
                 List<string> list = tree.GetVariableList();
 
+                int senderRow = ((ConcreteCell)sender).RowIndex;
+                int senderCol = ((ConcreteCell)sender).ColumnIndex;
+
+                if(!dependencyTable.Contains(new Tuple<int,int>(senderRow, senderCol)))
+                {
+                    this.dependencyTable.Add(new Tuple<int, int>(senderRow, senderCol)); // add Cell cordinates of listener.
+                }
+
                 foreach (string variable in list)
                 {
                     // Set value of variable.
                     char tempColChar = variable[0];
                     int tempRow = int.Parse(variable.Substring(1)) - 1;  // Retrieve any digits after Column Char
                     int tempCol = tempColChar % 'A';
-                    string tempValue = this.GetCell(tempRow, tempCol).Value;
-
+                    Cell tempCell = this.GetCell(tempRow, tempCol);
+                    tempCell.PropertyChanged -= this.Cell_PropertyChangedAgain;
+                    tempCell.PropertyChanged += this.Cell_PropertyChangedAgain;
+                    string tempValue = tempCell.Value;
                     double number;
                     if (double.TryParse(tempValue, out number))
                     {
@@ -140,6 +154,45 @@ namespace SpreadsheetEngine
             }
 
             this.CellPropertyChanged?.Invoke(sender, e);
+        }
+
+        private void Cell_PropertyChangedAgain(object sender, PropertyChangedEventArgs e)
+        {
+            if (this.reevaluate == true) // prevents circular handler trigggering
+            {
+                return;
+            }
+
+            this.reevaluate = true;
+            foreach (Tuple<int, int> tuple in this.dependencyTable)
+            {
+                Cell listener = this.GetCell(tuple.Item1, tuple.Item2);
+                ExpressionTree listenerExpression = new ExpressionTree(listener.Text.Substring(1));
+                List<string> list = listenerExpression.GetVariableList();
+                foreach (string variable in list)
+                {
+                    char tempColChar = variable[0];
+                    int tempRow = int.Parse(variable.Substring(1)) - 1;  // Retrieve any digits after Column Char
+                    int tempCol = tempColChar % 'A';
+                    Cell tempCell = this.GetCell(tempRow, tempCol);
+                    tempCell.PropertyChanged -= this.Cell_PropertyChangedAgain;
+                    tempCell.PropertyChanged += this.Cell_PropertyChangedAgain;
+                    string tempValue = tempCell.Value;
+                    double number;
+                    if (double.TryParse(tempValue, out number))
+                    {
+                        listenerExpression.SetVariable(variable, number);
+                    }
+                    else
+                    {
+                        // implement Exception logic for next HW.
+                    }
+                }
+
+                listener.SetValue(listenerExpression.Evaluate().ToString());
+            }
+
+            this.reevaluate = false;
         }
     }
 }

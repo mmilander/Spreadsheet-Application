@@ -27,23 +27,6 @@ namespace Spreadsheet_Mitchell_Milander
             this.member = new Spreadsheet(50, 26);
             this.member.CellPropertyChanged += this.Cell_PropertyChanged;
         }
-        /*
-        private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            Cell tempCell = this.member.GetCell(e.RowIndex, e.ColumnIndex);
-            //this.dataGridView1[e.RowIndex, e.ColumnIndex].Value = tempCell;
-            this.dataGridView1.Rows[tempCell.RowIndex].Cells[tempCell.ColumnIndex].Value = tempCell.Text;
-        }
-        */
-        /*
-        private void dataGridView1_CellEndEdit(object sender,
-            DataGridViewCellEventArgs e)
-        {
-            string msg = String.Format("Finished Editing Cell at ({0}, {1})",
-                e.ColumnIndex, e.RowIndex);
-            this.Text = msg;
-        }
-        */
 
         private void Cell_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
