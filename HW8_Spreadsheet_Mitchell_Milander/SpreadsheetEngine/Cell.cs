@@ -77,7 +77,7 @@ namespace SpreadsheetEngine
         }
 
         /// <summary>
-        /// Gets or Sets BGColor. Triggers event.
+        /// Gets or Sets BGColor. Triggers the event.
         /// </summary>
         public uint BGColor
         {
