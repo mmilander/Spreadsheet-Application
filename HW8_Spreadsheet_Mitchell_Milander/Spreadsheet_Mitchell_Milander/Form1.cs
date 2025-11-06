@@ -35,6 +35,12 @@ namespace Spreadsheet_Mitchell_Milander
             {
                 this.dataGridView1.Rows[tempCell.RowIndex].Cells[tempCell.ColumnIndex].Value = tempCell.Value;
             }
+
+            if (e.PropertyName == nameof(Cell.BGColor))
+            {
+                Color tempColor = Color.FromArgb((int)tempCell.BGColor);
+                this.dataGridView1.Rows[tempCell.RowIndex].Cells[tempCell.ColumnIndex].Style.BackColor = tempColor;
+            }
         }
 
         private void Spreadsheet_Load(object sender, EventArgs e)
@@ -77,9 +83,12 @@ namespace Spreadsheet_Mitchell_Milander
         {
             ColorDialog myColor = new ColorDialog();
             myColor.AllowFullOpen = true;
-            if(myColor.ShowDialog() == DialogResult.OK)
+            if (myColor.ShowDialog() == DialogResult.OK)
             {
-                //send color to logic.
+                foreach(DataGridViewCell cell in this.dataGridView1.SelectedCells) {
+                    Cell tempCell = this.member.GetCell(cell.RowIndex, cell.ColumnIndex);
+                    tempCell.BGColor = (uint)myColor.Color.ToArgb();
+                }
             }
         }
     }

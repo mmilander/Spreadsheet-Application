@@ -16,8 +16,9 @@ namespace SpreadsheetEngine
     {
         private readonly int rowIndex;
         private readonly int columnIndex;
-        private string text; // Directions say protected
-        private string value; // Directions say protected
+        private string text;
+        private string value;
+        private uint bgColor;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Cell"/> class.
@@ -31,6 +32,7 @@ namespace SpreadsheetEngine
             this.columnIndex = columnIndex;
             this.text = string.Empty;
             this.value = string.Empty;
+            this.bgColor = 0xFFFFFFFF;
         }
 
         /// <summary>
@@ -70,6 +72,26 @@ namespace SpreadsheetEngine
                 {
                     this.text = value;
                     this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.Text)));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or Sets BGColor. Triggers event.
+        /// </summary>
+        public uint BGColor
+        {
+            get
+            {
+                return this.bgColor;
+            }
+
+            set
+            {
+                if (value != this.bgColor)
+                {
+                    this.bgColor = value;
+                    this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.BGColor)));
                 }
             }
         }
