@@ -151,4 +151,36 @@ public class UnitTests
 
         return method;
     }
+
+    /// <summary>
+    /// .
+    /// </summary>
+    [Test]
+    public void TestNormalCaseCommandDP()
+    {
+        this.normalCaseSpreadsheet.GetCell(0, 0).Text = "10";
+        this.normalCaseSpreadsheet.GetCell(0, 1).Text = "=A1";
+        string tempName = this.normalCaseSpreadsheet.GetCell(0, 1).Value;
+        //Assert.That(tempName, Is.EqualTo("10")); // Since cell (0,1) value should update to A1
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [Test]
+    public void EdgeCaseResultCommandDP()
+    {
+        Cell cellTemp = this.edgeCaseSpreadsheet.GetCell(0, 0);
+       // Assert.IsNotNull(cellTemp);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [Test]
+    public void ExceptionCaseResultCommandDP()
+    {
+        //Assert.Throws<ArgumentOutOfRangeException>(() => this.exceptionCaseSpreadsheet = new Spreadsheet(-1, 3));
+    }
+
 }
