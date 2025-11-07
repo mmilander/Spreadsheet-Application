@@ -33,6 +33,40 @@ public class UnitTests
     }
 
     /// <summary>
+    /// Checks that string retrieval method functions properly.
+    /// </summary>
+    [Test]
+    public void TestNormalCaseCommandDP()
+    {
+        UndoRedoCollection newCollection = new UndoRedoCollection("text change");
+        ChangeTextCommand changeText = new ChangeTextCommand(this.normalCaseSpreadsheet, 0, 1, "...", "newtext");
+        newCollection.AddCmd(changeText);
+        this.normalCaseSpreadsheet.AddUndo(newCollection);
+        string check = this.normalCaseSpreadsheet.GetUndoInfo();
+        Assert.That(check, Is.EqualTo("Undo text change"));
+    }
+
+    /// <summary>
+    /// Checks that string retrieval method works if undoCollection is empty.
+    /// </summary>
+    [Test]
+    public void EdgeCaseResultCommandDP()
+    {
+        string check = this.edgeCaseSpreadsheet.GetUndoInfo();
+        Assert.That(check, Is.EqualTo(string.Empty));
+    }
+
+    /// <summary>
+    /// Pass in empty UndoRedoCollection.
+    /// </summary>
+    [Test]
+    public void ExceptionCaseResultCommandDP()
+    {
+        UndoRedoCollection newCollection = new UndoRedoCollection("text change");
+        Assert.Throws<InvalidOperationException>(() => this.edgeCaseSpreadsheet.AddUndo(newCollection));
+    }
+
+    /// <summary>
     /// This tests that when changing one cell, the event is triggered
     /// and the value is updated.
     /// </summary>
@@ -151,39 +185,4 @@ public class UnitTests
 
         return method;
     }
-
-    /// <summary>
-    /// Checks that string retrieval method functions properly.
-    /// </summary>
-    [Test]
-    public void TestNormalCaseCommandDP()
-    {
-        UndoRedoCollection newCollection = new UndoRedoCollection("text change");
-        ChangeTextCommand changeText = new ChangeTextCommand(this.normalCaseSpreadsheet, 0, 1,"...", "newtext");
-        newCollection.AddCmd(changeText);
-        this.normalCaseSpreadsheet.AddUndo(newCollection);
-        string check = this.normalCaseSpreadsheet.GetUndoInfo();
-        Assert.That(check, Is.EqualTo("Undo text change"));
-    }
-
-    /// <summary>
-    /// Checks that string retrieval method works if undoCollection is empty.
-    /// </summary>
-    [Test]
-    public void EdgeCaseResultCommandDP()
-    {
-        string check = this.edgeCaseSpreadsheet.GetUndoInfo();
-        Assert.That(check, Is.EqualTo(string.Empty));
-    }
-
-    /// <summary>
-    /// Pass in empty UndoRedoCollection.
-    /// </summary>
-    [Test]
-    public void ExceptionCaseResultCommandDP()
-    {
-       // UndoRedoCollection newCollection = new UndoRedoCollection("text change");
-      //  Assert.Throws<ArgumentOutOfRangeException>(() => this.exceptionCaseSpreadsheet.AddUndo(newCollection));
-    }
-
 }

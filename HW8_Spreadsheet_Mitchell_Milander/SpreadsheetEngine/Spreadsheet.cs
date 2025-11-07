@@ -156,7 +156,7 @@ namespace SpreadsheetEngine
             }
             else
             {
-                return "Undo " + this.undoList.Peek().information;
+                return "Undo " + this.undoList.Peek().Information;
             }
         }
 
@@ -172,7 +172,7 @@ namespace SpreadsheetEngine
             }
             else
             {
-                return "Redo " + this.redoList.Peek().information;
+                return "Redo " + this.redoList.Peek().Information;
             }
         }
 

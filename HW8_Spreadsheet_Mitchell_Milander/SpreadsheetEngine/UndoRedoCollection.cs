@@ -2,8 +2,6 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using Microsoft.VisualBasic;
-
 namespace SpreadsheetEngine
 {
     /// <summary>
@@ -11,9 +9,9 @@ namespace SpreadsheetEngine
     /// </summary>
     public class UndoRedoCollection
     {
+        private int count;
+        private string information;
         private Stack<ICommand> cmd;
-        public int count;
-        public string information;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UndoRedoCollection"/> class.
@@ -29,14 +27,28 @@ namespace SpreadsheetEngine
         /// <summary>
         /// Gets or sets infromation.
         /// </summary>
-        public string Information { get; set; }
+        public string Information
+        {
+            get
+            {
+                return this.information;
+            }
+
+            set
+            {
+                this.information = value;
+            }
+        }
 
         /// <summary>
         /// Gets count.
         /// </summary>
         public int Count
         {
-            get { return this.count; }
+            get
+            {
+                return this.count;
+            }
         }
 
         /// <summary>
@@ -81,6 +93,5 @@ namespace SpreadsheetEngine
                 val.Redo();
             }
         }
-
     }
 }

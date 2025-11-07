@@ -102,7 +102,6 @@ namespace Spreadsheet_Mitchell_Milander
             }
         }
 
-
         private void UpdateText()
         {
             string tempUndoText = this.member.GetUndoInfo();
