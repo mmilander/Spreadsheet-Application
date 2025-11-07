@@ -1,4 +1,4 @@
-﻿// <copyright file="Class1.cs" company="SpreadsheetEngine">
+﻿// <copyright file="Cell.cs" company="SpreadsheetEngine">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
