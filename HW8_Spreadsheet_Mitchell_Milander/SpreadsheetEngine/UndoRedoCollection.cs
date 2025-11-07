@@ -12,6 +12,7 @@ namespace SpreadsheetEngine
     public class UndoRedoCollection
     {
         private Stack<ICommand> cmd;
+        public int count;
         public string information;
 
         /// <summary>
@@ -22,6 +23,7 @@ namespace SpreadsheetEngine
         {
             this.information = information;
             this.cmd = new Stack<ICommand>();
+            this.count = 0;
         }
 
         /// <summary>
@@ -30,12 +32,21 @@ namespace SpreadsheetEngine
         public string Information { get; set; }
 
         /// <summary>
+        /// Gets count.
+        /// </summary>
+        public int Count
+        {
+            get { return this.count; }
+        }
+
+        /// <summary>
         /// Allows new command to be added.
         /// </summary>
         /// <param name="cmd">Command.</param>
         public void AddCmd(ICommand cmd)
         {
             this.cmd.Push(cmd);
+            this.count++;
         }
 
         /// <summary>

@@ -153,34 +153,37 @@ public class UnitTests
     }
 
     /// <summary>
-    /// .
+    /// Checks that string retrieval method functions properly.
     /// </summary>
     [Test]
     public void TestNormalCaseCommandDP()
     {
-        this.normalCaseSpreadsheet.GetCell(0, 0).Text = "10";
-        this.normalCaseSpreadsheet.GetCell(0, 1).Text = "=A1";
-        string tempName = this.normalCaseSpreadsheet.GetCell(0, 1).Value;
-        //Assert.That(tempName, Is.EqualTo("10")); // Since cell (0,1) value should update to A1
+        UndoRedoCollection newCollection = new UndoRedoCollection("text change");
+        ChangeTextCommand changeText = new ChangeTextCommand(this.normalCaseSpreadsheet, 0, 1,"...", "newtext");
+        newCollection.AddCmd(changeText);
+        this.normalCaseSpreadsheet.AddUndo(newCollection);
+        string check = this.normalCaseSpreadsheet.GetUndoInfo();
+        Assert.That(check, Is.EqualTo("Undo text change"));
     }
 
     /// <summary>
-    /// 
+    /// Checks that string retrieval method works if undoCollection is empty.
     /// </summary>
     [Test]
     public void EdgeCaseResultCommandDP()
     {
-        Cell cellTemp = this.edgeCaseSpreadsheet.GetCell(0, 0);
-       // Assert.IsNotNull(cellTemp);
+        string check = this.edgeCaseSpreadsheet.GetUndoInfo();
+        Assert.That(check, Is.EqualTo(string.Empty));
     }
 
     /// <summary>
-    /// 
+    /// Pass in empty UndoRedoCollection.
     /// </summary>
     [Test]
     public void ExceptionCaseResultCommandDP()
     {
-        //Assert.Throws<ArgumentOutOfRangeException>(() => this.exceptionCaseSpreadsheet = new Spreadsheet(-1, 3));
+       // UndoRedoCollection newCollection = new UndoRedoCollection("text change");
+      //  Assert.Throws<ArgumentOutOfRangeException>(() => this.exceptionCaseSpreadsheet.AddUndo(newCollection));
     }
 
 }

@@ -114,6 +114,11 @@ namespace SpreadsheetEngine
         /// <param name="cmd">Command collection.</param>
         public void AddUndo(UndoRedoCollection cmd)
         {
+            if (cmd.Count == 0)
+            {
+                throw new InvalidOperationException();
+            }
+
             cmd.Execute();
             this.undoList.Push(cmd);
             this.redoList.Clear();
