@@ -178,6 +178,12 @@ namespace SpreadsheetEngine
 
         private void Cell_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (e.PropertyName != nameof(Cell.Text))
+            {
+                this.CellPropertyChanged?.Invoke(sender, e);
+                return;
+            }
+
             if (((ConcreteCell)sender).Text == string.Empty)
             {
                ((ConcreteCell)sender).SetValue(string.Empty);
@@ -239,6 +245,11 @@ namespace SpreadsheetEngine
             foreach (Tuple<int, int> tuple in this.dependencyTable)
             {
                 Cell listener = this.GetCell(tuple.Item1, tuple.Item2);
+                if (listener.Text == string.Empty)
+                {
+                    continue;
+                }
+
                 ExpressionTree listenerExpression = new ExpressionTree(listener.Text.Substring(1));
                 List<string> list = listenerExpression.GetVariableList();
                 foreach (string variable in list)

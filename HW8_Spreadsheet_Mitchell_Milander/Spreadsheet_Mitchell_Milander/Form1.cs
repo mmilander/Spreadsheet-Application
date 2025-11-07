@@ -26,6 +26,7 @@ namespace Spreadsheet_Mitchell_Milander
             this.InitializeDataGrid();
             this.member = new Spreadsheet(50, 26);
             this.member.CellPropertyChanged += this.Cell_PropertyChanged;
+            this.UpdateText();
         }
 
         private void Cell_PropertyChanged(object sender, PropertyChangedEventArgs e)
