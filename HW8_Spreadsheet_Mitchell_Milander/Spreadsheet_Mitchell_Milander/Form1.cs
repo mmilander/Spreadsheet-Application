@@ -76,20 +76,68 @@ namespace Spreadsheet_Mitchell_Milander
         {
             Cell tempCell = this.member.GetCell(e.RowIndex, e.ColumnIndex);
             string tempValue = this.dataGridView1.Rows[tempCell.RowIndex].Cells[tempCell.ColumnIndex].Value.ToString();
-            this.member.CellEndHelper(e.RowIndex, e.ColumnIndex, tempValue);
+            UndoRedoCollection newCollection = new UndoRedoCollection("text change");
+            ChangeTextCommand changeText = new ChangeTextCommand(this.member, tempCell.RowIndex, tempCell.ColumnIndex, tempCell.Text, tempValue);
+            newCollection.AddCmd(changeText);
+            this.member.AddUndo(newCollection);
+            this.UpdateText();
         }
 
-        private void changeBackgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ChangeBackgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ColorDialog myColor = new ColorDialog();
             myColor.AllowFullOpen = true;
+            UndoRedoCollection newCollection = new UndoRedoCollection("background color change");
             if (myColor.ShowDialog() == DialogResult.OK)
             {
-                foreach(DataGridViewCell cell in this.dataGridView1.SelectedCells) {
+                foreach (DataGridViewCell cell in this.dataGridView1.SelectedCells)
+                {
                     Cell tempCell = this.member.GetCell(cell.RowIndex, cell.ColumnIndex);
-                    tempCell.BGColor = (uint)myColor.Color.ToArgb();
+                    ChangeBackgroundCommand changeColor = new ChangeBackgroundCommand(this.member, cell.RowIndex, cell.ColumnIndex, tempCell.BGColor, (uint)myColor.Color.ToArgb());
+                    newCollection.AddCmd(changeColor);
                 }
+
+                this.member.AddUndo(newCollection);
+                this.UpdateText();
             }
+        }
+
+
+        private void UpdateText()
+        {
+            string tempUndoText = this.member.GetUndoInfo();
+            if (tempUndoText == string.Empty)
+            {
+                this.undoToolStripMenuItem.Enabled = false;
+            }
+            else
+            {
+                this.undoToolStripMenuItem.Text = tempUndoText;
+                this.undoToolStripMenuItem.Enabled = true;
+            }
+
+            string tempRedoText = this.member.GetRedoInfo();
+            if (tempRedoText == string.Empty)
+            {
+                this.redoToolStripMenuItem.Enabled = false;
+            }
+            else
+            {
+                this.redoToolStripMenuItem.Text = tempRedoText;
+                this.redoToolStripMenuItem.Enabled = true;
+            }
+        }
+
+        private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.member.Undo();
+            this.UpdateText();
+        }
+
+        private void RedoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.member.Redo();
+            this.UpdateText();
         }
     }
 }

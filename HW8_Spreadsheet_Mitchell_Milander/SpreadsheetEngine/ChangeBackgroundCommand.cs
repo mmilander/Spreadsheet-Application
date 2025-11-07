@@ -7,7 +7,7 @@ namespace SpreadsheetEngine
     /// <summary>
     /// Offers command to change background color.
     /// </summary>
-    internal class ChangeBackgroundCommand : ICommand
+    public class ChangeBackgroundCommand : ICommand
     {
         private Spreadsheet receiver;
         private Cell cell;

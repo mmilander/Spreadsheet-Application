@@ -17,8 +17,8 @@ namespace SpreadsheetEngine
         private readonly ConcreteCell[,] arrayCell; // Creates multidemsnional rectangle array.
         private List<Tuple<int, int>> dependencyTable = new List<Tuple<int, int>>();
         private bool reevaluate;
-        private Stack<ICommand> undoList;
-        private Stack<ICommand> redoList;
+        private Stack<UndoRedoCollection> undoList;
+        private Stack<UndoRedoCollection> redoList;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Spreadsheet"/> class.
@@ -28,8 +28,8 @@ namespace SpreadsheetEngine
         public Spreadsheet(int row, int col)
         {
             this.reevaluate = false;
-            this.undoList = new Stack<ICommand>();
-            this.redoList = new Stack<ICommand>();
+            this.undoList = new Stack<UndoRedoCollection>();
+            this.redoList = new Stack<UndoRedoCollection>();
 
             if (row < 0)
             {
@@ -111,8 +111,8 @@ namespace SpreadsheetEngine
         /// <summary>
         /// Executes and Adds a new command to the undoList.
         /// </summary>
-        /// <param name="cmd">Command.</param>
-        public void AddUndo(ICommand cmd)
+        /// <param name="cmd">Command collection.</param>
+        public void AddUndo(UndoRedoCollection cmd)
         {
             cmd.Execute();
             this.undoList.Push(cmd);
@@ -124,7 +124,7 @@ namespace SpreadsheetEngine
         /// </summary>
         public void Undo()
         {
-            ICommand undoTemp = this.undoList.Pop();
+            UndoRedoCollection undoTemp = this.undoList.Pop();
             undoTemp.Undo();
             this.redoList.Push(undoTemp);
         }
@@ -134,9 +134,41 @@ namespace SpreadsheetEngine
         /// </summary>
         public void Redo()
         {
-            ICommand redoTemp = this.redoList.Pop();
+            UndoRedoCollection redoTemp = this.redoList.Pop();
             redoTemp.Redo();
             this.undoList.Push(redoTemp);
+        }
+
+        /// <summary>
+        /// Returns applicable info.
+        /// </summary>
+        /// <returns>String.</returns>
+        public string GetUndoInfo()
+        {
+            if (this.undoList.Count == 0)
+            {
+                return string.Empty;
+            }
+            else
+            {
+                return "Undo " + this.undoList.Peek().information;
+            }
+        }
+
+        /// <summary>
+        /// Returns applicable info.
+        /// </summary>
+        /// <returns>String.</returns>
+        public string GetRedoInfo()
+        {
+            if (this.redoList.Count == 0)
+            {
+                return string.Empty;
+            }
+            else
+            {
+                return "Redo " + this.redoList.Peek().information;
+            }
         }
 
         private void Cell_PropertyChanged(object sender, PropertyChangedEventArgs e)

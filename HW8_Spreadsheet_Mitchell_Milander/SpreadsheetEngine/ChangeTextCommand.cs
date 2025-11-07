@@ -7,7 +7,7 @@ namespace SpreadsheetEngine
     /// <summary>
     /// Offers command to change background text.
     /// </summary>
-    internal class ChangeTextCommand : ICommand
+    public class ChangeTextCommand : ICommand
     {
         private Spreadsheet receiver;
         private int rowIndex;
