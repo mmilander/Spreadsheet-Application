@@ -17,6 +17,8 @@ namespace SpreadsheetEngine
         private readonly ConcreteCell[,] arrayCell; // Creates multidemsnional rectangle array.
         private List<Tuple<int, int>> dependencyTable = new List<Tuple<int, int>>();
         private bool reevaluate;
+        private Stack<ICommand> undoList;
+        private Stack<ICommand> redoList;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Spreadsheet"/> class.
@@ -26,6 +28,9 @@ namespace SpreadsheetEngine
         public Spreadsheet(int row, int col)
         {
             this.reevaluate = false;
+            this.undoList = new Stack<ICommand>();
+            this.redoList = new Stack<ICommand>();
+
             if (row < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(row), "Out of range");
@@ -101,6 +106,37 @@ namespace SpreadsheetEngine
         public void CellEndHelper(int rowIndex, int colIndex, string text)
         {
             this.arrayCell[rowIndex, colIndex].Text = text;
+        }
+
+        /// <summary>
+        /// Executes and Adds a new command to the undoList.
+        /// </summary>
+        /// <param name="cmd">Command.</param>
+        public void AddUndo(ICommand cmd)
+        {
+            cmd.Execute();
+            this.undoList.Push(cmd);
+            this.redoList.Clear();
+        }
+
+        /// <summary>
+        /// Undoes current command.
+        /// </summary>
+        public void Undo()
+        {
+            ICommand undoTemp = this.undoList.Pop();
+            undoTemp.Undo();
+            this.redoList.Push(undoTemp);
+        }
+
+        /// <summary>
+        /// Redoes previous command.
+        /// </summary>
+        public void Redo()
+        {
+            ICommand redoTemp = this.redoList.Pop();
+            redoTemp.Redo();
+            this.undoList.Push(redoTemp);
         }
 
         private void Cell_PropertyChanged(object sender, PropertyChangedEventArgs e)
