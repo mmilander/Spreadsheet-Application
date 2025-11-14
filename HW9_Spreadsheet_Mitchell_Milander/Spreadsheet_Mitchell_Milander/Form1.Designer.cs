@@ -35,11 +35,15 @@
             D = new DataGridViewTextBoxColumn();
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
+            loadSpreadsheetToolStripMenuItem = new ToolStripMenuItem();
+            saveSpreadsheetToolStripMenuItem = new ToolStripMenuItem();
             editToolStripMenuItem = new ToolStripMenuItem();
-            cellToolStripMenuItem = new ToolStripMenuItem();
-            changeBackgroundColorToolStripMenuItem = new ToolStripMenuItem();
             undoToolStripMenuItem = new ToolStripMenuItem();
             redoToolStripMenuItem = new ToolStripMenuItem();
+            cellToolStripMenuItem = new ToolStripMenuItem();
+            changeBackgroundColorToolStripMenuItem = new ToolStripMenuItem();
+            openFileDialog1 = new OpenFileDialog();
+            saveFileDialog1 = new SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             menuStrip1.SuspendLayout();
             SuspendLayout();
@@ -50,10 +54,11 @@
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { A, B, C, D });
-            dataGridView1.Location = new Point(12, 36);
+            dataGridView1.Location = new Point(10, 29);
+            dataGridView1.Margin = new Padding(2);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(821, 768);
+            dataGridView1.Size = new Size(657, 614);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellBeginEdit += DataGridView1_CellBeginEdit;
             dataGridView1.CellEndEdit += DataGridView1_CellEndEdit;
@@ -92,59 +97,80 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, cellToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1108, 33);
+            menuStrip1.Padding = new Padding(5, 2, 0, 2);
+            menuStrip1.Size = new Size(886, 28);
             menuStrip1.TabIndex = 1;
             menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { loadSpreadsheetToolStripMenuItem, saveSpreadsheetToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            fileToolStripMenuItem.Size = new Size(54, 29);
+            fileToolStripMenuItem.Size = new Size(46, 24);
             fileToolStripMenuItem.Text = "File";
+            // 
+            // loadSpreadsheetToolStripMenuItem
+            // 
+            loadSpreadsheetToolStripMenuItem.Name = "loadSpreadsheetToolStripMenuItem";
+            loadSpreadsheetToolStripMenuItem.Size = new Size(224, 26);
+            loadSpreadsheetToolStripMenuItem.Text = "Load";
+            loadSpreadsheetToolStripMenuItem.Click += loadSpreadsheetToolStripMenuItem_Click;
+            // 
+            // saveSpreadsheetToolStripMenuItem
+            // 
+            saveSpreadsheetToolStripMenuItem.Name = "saveSpreadsheetToolStripMenuItem";
+            saveSpreadsheetToolStripMenuItem.Size = new Size(224, 26);
+            saveSpreadsheetToolStripMenuItem.Text = "Save";
+            saveSpreadsheetToolStripMenuItem.Click += saveSpreadsheetToolStripMenuItem_Click;
             // 
             // editToolStripMenuItem
             // 
             editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { undoToolStripMenuItem, redoToolStripMenuItem });
             editToolStripMenuItem.Name = "editToolStripMenuItem";
-            editToolStripMenuItem.Size = new Size(58, 29);
+            editToolStripMenuItem.Size = new Size(49, 24);
             editToolStripMenuItem.Text = "Edit";
-            // 
-            // cellToolStripMenuItem
-            // 
-            cellToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { changeBackgroundColorToolStripMenuItem });
-            cellToolStripMenuItem.Name = "cellToolStripMenuItem";
-            cellToolStripMenuItem.Size = new Size(56, 29);
-            cellToolStripMenuItem.Text = "Cell";
-            // 
-            // changeBackgroundColorToolStripMenuItem
-            // 
-            changeBackgroundColorToolStripMenuItem.Name = "changeBackgroundColorToolStripMenuItem";
-            changeBackgroundColorToolStripMenuItem.Size = new Size(332, 34);
-            changeBackgroundColorToolStripMenuItem.Text = "Change background color...";
-            changeBackgroundColorToolStripMenuItem.Click += ChangeBackgroundColorToolStripMenuItem_Click;
             // 
             // undoToolStripMenuItem
             // 
             undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            undoToolStripMenuItem.Size = new Size(270, 34);
+            undoToolStripMenuItem.Size = new Size(128, 26);
             undoToolStripMenuItem.Text = "Undo";
             undoToolStripMenuItem.Click += UndoToolStripMenuItem_Click;
             // 
             // redoToolStripMenuItem
             // 
             redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            redoToolStripMenuItem.Size = new Size(270, 34);
+            redoToolStripMenuItem.Size = new Size(128, 26);
             redoToolStripMenuItem.Text = "Redo";
             redoToolStripMenuItem.Click += RedoToolStripMenuItem_Click;
             // 
+            // cellToolStripMenuItem
+            // 
+            cellToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { changeBackgroundColorToolStripMenuItem });
+            cellToolStripMenuItem.Name = "cellToolStripMenuItem";
+            cellToolStripMenuItem.Size = new Size(48, 24);
+            cellToolStripMenuItem.Text = "Cell";
+            // 
+            // changeBackgroundColorToolStripMenuItem
+            // 
+            changeBackgroundColorToolStripMenuItem.Name = "changeBackgroundColorToolStripMenuItem";
+            changeBackgroundColorToolStripMenuItem.Size = new Size(272, 26);
+            changeBackgroundColorToolStripMenuItem.Text = "Change background color...";
+            changeBackgroundColorToolStripMenuItem.Click += ChangeBackgroundColorToolStripMenuItem_Click;
+            // 
+            // openFileDialog1
+            // 
+            openFileDialog1.FileName = "openFileDialog1";
+            // 
             // SpreadsheetForm
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1108, 799);
+            ClientSize = new Size(886, 639);
             Controls.Add(dataGridView1);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
+            Margin = new Padding(2);
             Name = "SpreadsheetForm";
             Text = "Form1";
             Load += Spreadsheet_Load;
@@ -169,5 +195,9 @@
         private ToolStripMenuItem changeBackgroundColorToolStripMenuItem;
         private ToolStripMenuItem undoToolStripMenuItem;
         private ToolStripMenuItem redoToolStripMenuItem;
+        private ToolStripMenuItem loadSpreadsheetToolStripMenuItem;
+        private ToolStripMenuItem saveSpreadsheetToolStripMenuItem;
+        private OpenFileDialog openFileDialog1;
+        private SaveFileDialog saveFileDialog1;
     }
 }

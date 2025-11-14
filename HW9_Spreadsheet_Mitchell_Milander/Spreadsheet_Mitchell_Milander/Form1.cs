@@ -3,8 +3,10 @@
 // </copyright>
 namespace Spreadsheet_Mitchell_Milander
 {
+
     using System;
     using System.ComponentModel;
+    using System.Windows.Forms;
     using SpreadsheetEngine;
 
     // Suppress so Dispose function still works
@@ -138,6 +140,41 @@ namespace Spreadsheet_Mitchell_Milander
         {
             this.member.Redo();
             this.UpdateText();
+        }
+
+        private void loadSpreadsheetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.openFileDialog1.InitialDirectory = "c:\\";
+            this.openFileDialog1.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
+            this.openFileDialog1.FilterIndex = 2;
+            this.openFileDialog1.RestoreDirectory = true;
+
+            if (this.openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                // Read the contents of the file into a stream.
+                using (var fileStream = this.openFileDialog1.OpenFile())
+                {
+                    this.member.Load(fileStream);
+                }
+            }
+        }
+
+        private void saveSpreadsheetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Stream myStream;
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+
+            saveFileDialog1.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
+            saveFileDialog1.FilterIndex = 2;
+            saveFileDialog1.RestoreDirectory = true;
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                using (var fileStream = saveFileDialog1.OpenFile())
+                {
+                    this.member.Save(fileStream);
+                }
+            }
         }
     }
 }

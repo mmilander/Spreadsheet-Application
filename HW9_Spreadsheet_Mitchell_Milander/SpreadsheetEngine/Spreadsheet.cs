@@ -4,10 +4,12 @@
 
 namespace SpreadsheetEngine
 {
+    using SpreadsheetEngine;
     using System;
     using System.ComponentModel;
+    using System.IO;
     using System.Linq;
-    using SpreadsheetEngine;
+    using System.Xml.Linq;
 
     /// <summary>
     /// This class serves as the container for 2D cells.
@@ -84,25 +86,57 @@ namespace SpreadsheetEngine
             }
          }
 
+        /// <summary>
+        /// Saves Spreadsheet data to an XML File.
+        /// </summary>
+        /// <param name="writeStream">Save destination.</param>
         public void Save(Stream writeStream)
         {
-               for (int rowItr = 0; rowItr < this.row; rowItr++) // Go through each index and add cell.
+            XDocument srcTree = new XDocument(new XElement("spreadsheet"));
+            for (int rowItr = 0; rowItr < this.row; rowItr++) // Go through each index and add cell.
                 {
                     for (int colItr = 0; colItr < this.col; colItr++)
                     {
-                        this.arrayCell[rowItr, colItr] = new ConcreteCell(rowItr, colItr);
-                        this.arrayCell[rowItr, colItr].PropertyChanged += this.Cell_PropertyChanged;
+                         if (this.CellIsChanged(rowItr, colItr))
+                         {
+                            Cell tempCell = this.arrayCell[rowItr, colItr];
+
+                            XElement element = new XElement(
+                               "cell",
+                               new XAttribute("name", this.GetCellName(rowItr,colItr)),
+                               new XElement("bgcolor", tempCell.BGColor),
+                               new XElement("text", tempCell.Text));
+                            srcTree.Root.Add(element);
+                         }
                     }
                 }
 
-            this.text = string.Empty;
-            this.value = string.Empty;
-            this.bgColor = 0xFFFFFFFF;
+            srcTree.Save(writeStream);
         }
 
-        public void Load(Stream writeStream)
+        /// <summary>
+        /// Reads XML data into Spreadsheet.
+        /// </summary>
+        /// <param name="readStream"> Retrieve destination.</param>
+        public void Load(Stream readStream)
         {
+            this.ClearSpreadsheet();
+            XDocument srcTree = XDocument.Load(readStream);
 
+            IEnumerable<XElement> elements =
+            from el in srcTree.Root.Elements("cell") // Retreive only Cell elements
+            select el;
+
+            foreach (XElement el in elements)
+            {
+                string name = (string)el.Attribute("name");
+                string bgcolor = (string)el.Element("bgcolor");
+                string text = (string)el.Element("text");
+                int tempRow = int.Parse(name.Substring(1)) - 1;  // Retrieve any digits after Column Char
+                int tempCol = name[0] % 'A';
+                this.arrayCell[tempRow, tempCol].BGColor = uint.Parse(bgcolor);
+                this.arrayCell[tempRow, tempCol].Text = text;
+            }
         }
 
         /// <summary>
@@ -301,6 +335,49 @@ namespace SpreadsheetEngine
             }
 
             this.reevaluate = false;
+        }
+
+        private bool CellIsChanged(int cellRow, int cellCol)
+        {
+            Cell tempCell = this.arrayCell[cellRow, cellCol];
+
+            if (tempCell.Text != string.Empty)
+            {
+                return true;
+            }
+
+            if (tempCell.BGColor != 0xFFFFFFFF)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private string GetCellName(int cellRow, int cellCol)
+        {
+            string tempString = string.Empty;
+            char tempChar = (char)(cellCol + 65);
+            tempString += tempChar;
+            tempString += (cellRow + 1).ToString();
+            return tempString;
+        }
+
+        private void ClearSpreadsheet()
+        {
+            this.reevaluate = false; // Reset original settings, like Constructor does.
+            this.undoList.Clear();
+            this.redoList.Clear();
+            this.dependencyTable.Clear();
+            for (int rowItr = 0; rowItr < this.row; rowItr++)
+            {
+                for (int colItr = 0; colItr < this.col; colItr++)
+                {
+                    this.arrayCell[rowItr, colItr].PropertyChanged -= this.Cell_PropertyChangedAgain;
+                    this.arrayCell[rowItr, colItr].Text = string.Empty;
+                    this.arrayCell[rowItr, colItr].BGColor = 0xFFFFFFFF;
+                }
+            }
         }
     }
 }
