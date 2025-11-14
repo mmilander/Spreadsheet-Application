@@ -145,7 +145,7 @@ namespace Spreadsheet_Mitchell_Milander
         {
             this.openFileDialog1.InitialDirectory = "c:\\";
             this.openFileDialog1.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
-            this.openFileDialog1.FilterIndex = 2;
+            this.openFileDialog1.FilterIndex = 1;
             this.openFileDialog1.RestoreDirectory = true;
 
             if (this.openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -164,7 +164,7 @@ namespace Spreadsheet_Mitchell_Milander
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
 
             saveFileDialog1.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
-            saveFileDialog1.FilterIndex = 2;
+            saveFileDialog1.FilterIndex = 1;
             saveFileDialog1.RestoreDirectory = true;
 
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
