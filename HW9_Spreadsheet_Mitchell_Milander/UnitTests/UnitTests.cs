@@ -48,7 +48,7 @@ public class UnitTests
         sheetTwo.Load(test);
         Assert.That(sheetTwo.GetCell(0, 0).Text, Is.EqualTo("10"));
         Assert.That(sheetTwo.GetCell(0, 1).Text, Is.EqualTo("=A1"));
-        Assert.That(sheetTwo.GetCell(0, 1).BGColor, Is.EqualTo(0xFF0000FF));
+        Assert.That(sheetTwo.GetCell(1, 0).BGColor, Is.EqualTo(0xFF0000FF));
     }
 
     /// <summary>
