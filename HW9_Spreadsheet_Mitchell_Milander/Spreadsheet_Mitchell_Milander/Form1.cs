@@ -77,11 +77,18 @@ namespace Spreadsheet_Mitchell_Milander
         private void DataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             Cell tempCell = this.member.GetCell(e.RowIndex, e.ColumnIndex);
-            string tempValue = this.dataGridView1.Rows[tempCell.RowIndex].Cells[tempCell.ColumnIndex].Value.ToString();
+
+            string tempValue = string.Empty;
+            if (this.dataGridView1.Rows[tempCell.RowIndex].Cells[tempCell.ColumnIndex].Value != null)
+            {
+                tempValue = this.dataGridView1.Rows[tempCell.RowIndex].Cells[tempCell.ColumnIndex].Value.ToString();
+            }
+
             UndoRedoCollection newCollection = new UndoRedoCollection("text change");
             ChangeTextCommand changeText = new ChangeTextCommand(this.member, tempCell.RowIndex, tempCell.ColumnIndex, tempCell.Text, tempValue);
             newCollection.AddCmd(changeText);
             this.member.AddUndo(newCollection);
+            this.dataGridView1.Rows[tempCell.RowIndex].Cells[tempCell.ColumnIndex].Value = tempCell.Value;
             this.UpdateText();
         }
 
