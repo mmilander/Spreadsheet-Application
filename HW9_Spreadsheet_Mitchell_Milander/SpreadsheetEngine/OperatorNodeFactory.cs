@@ -31,10 +31,12 @@ namespace SpreadsheetEngine
                     throw new ArgumentException("Invalid Operator");
             }
         }
+
         /// <summary>
         /// This determines the precedence of a particular operator.
         /// </summary>
-        /// <param name="op">Character input.</param>
+        /// <param name="lhs">Character input.</param>
+        /// <param name="rhs">Character input for rhs.</param>
         /// <returns>OperatorNode.</returns>
         /// <exception cref="ArgumentException">Invalid Operator.</exception>
         public int Precedence(char lhs, char rhs)

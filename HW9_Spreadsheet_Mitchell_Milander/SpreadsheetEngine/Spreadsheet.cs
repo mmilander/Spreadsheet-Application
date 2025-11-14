@@ -4,12 +4,12 @@
 
 namespace SpreadsheetEngine
 {
-    using SpreadsheetEngine;
     using System;
     using System.ComponentModel;
     using System.IO;
     using System.Linq;
     using System.Xml.Linq;
+    using SpreadsheetEngine;
 
     /// <summary>
     /// This class serves as the container for 2D cells.
@@ -103,7 +103,7 @@ namespace SpreadsheetEngine
 
                             XElement element = new XElement(
                                "cell",
-                               new XAttribute("name", this.GetCellName(rowItr,colItr)),
+                               new XAttribute("name", this.GetCellName(rowItr, colItr)),
                                new XElement("bgcolor", tempCell.BGColor),
                                new XElement("text", tempCell.Text));
                             srcTree.Root.Add(element);
@@ -120,6 +120,11 @@ namespace SpreadsheetEngine
         /// <param name="readStream"> Retrieve destination.</param>
         public void Load(Stream readStream)
         {
+            if (readStream == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             this.ClearSpreadsheet();
             XDocument srcTree = XDocument.Load(readStream);
 

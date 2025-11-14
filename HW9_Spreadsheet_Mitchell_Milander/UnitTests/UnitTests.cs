@@ -32,48 +32,51 @@ public class UnitTests
         this.objectUnderTest = new ExpressionTree("2 + 4 + 1");
     }
 
-
     /// <summary>
-    /// Checks that...
+    /// Checks that a spreadsheet is saved and loaded correctly.
     /// </summary>
     [Test]
     public void TestNormalCaseXML()
     {
-        /*
-        UndoRedoCollection newCollection = new UndoRedoCollection("text change");
-        ChangeTextCommand changeText = new ChangeTextCommand(this.normalCaseSpreadsheet, 0, 1, "...", "newtext");
-        newCollection.AddCmd(changeText);
-        this.normalCaseSpreadsheet.AddUndo(newCollection);
-        string check = this.normalCaseSpreadsheet.GetUndoInfo();
-        Assert.That(check, Is.EqualTo("Undo text change"));*/
+        MemoryStream test = new MemoryStream();
+        this.normalCaseSpreadsheet.GetCell(0, 0).Text = "10";
+        this.normalCaseSpreadsheet.GetCell(0, 1).Text = "=A1";
+        this.normalCaseSpreadsheet.GetCell(1, 0).BGColor = 0xFF0000FF;
+        this.normalCaseSpreadsheet.Save(test);
+        test.Seek(0, SeekOrigin.Begin); // Set postition to beginning
+        Spreadsheet sheetTwo = new Spreadsheet(5, 5);
+        sheetTwo.Load(test);
+        Assert.That(sheetTwo.GetCell(0, 0).Text, Is.EqualTo("10"));
+        Assert.That(sheetTwo.GetCell(0, 1).Text, Is.EqualTo("=A1"));
+        Assert.That(sheetTwo.GetCell(0, 1).BGColor, Is.EqualTo(0xFF0000FF));
     }
 
     /// <summary>
-    /// Checks that...
+    /// Checks that saving and loading an empty cell works correctly.
     /// </summary>
     [Test]
     public void EdgeCaseXML()
     {
-        /*
-        string check = this.edgeCaseSpreadsheet.GetUndoInfo();
-        Assert.That(check, Is.EqualTo(string.Empty));
-        */
+        MemoryStream test = new MemoryStream();
+        Spreadsheet empty = new Spreadsheet(5, 5);
+        empty.Save(test);
+        test.Seek(0, SeekOrigin.Begin); // Set postition to beginning
+        Spreadsheet sheetTwo = new Spreadsheet(5, 5);
+        sheetTwo.Load(test);
+        Assert.That(sheetTwo.GetCell(0, 0).Text, Is.EqualTo(string.Empty));
+        Assert.That(sheetTwo.GetCell(0, 1).Text, Is.EqualTo(string.Empty));
+        Assert.That(sheetTwo.GetCell(0, 1).BGColor, Is.EqualTo(0xFFFFFFFF));
     }
 
     /// <summary>
-    /// 
+    /// This tests the load function with invalid input.
     /// </summary>
     [Test]
     public void ExceptionCaseXML()
     {
-        /*
-        UndoRedoCollection newCollection = new UndoRedoCollection("text change");
-        Assert.Throws<InvalidOperationException>(() => this.edgeCaseSpreadsheet.AddUndo(newCollection));
-        */
+        Spreadsheet empty = new Spreadsheet(5, 5);
+        Assert.Throws<ArgumentNullException>(() => empty.Load(null));
     }
-
-
-
 
     /// <summary>
     /// Checks that string retrieval method functions properly.

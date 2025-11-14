@@ -114,14 +114,14 @@
             loadSpreadsheetToolStripMenuItem.Name = "loadSpreadsheetToolStripMenuItem";
             loadSpreadsheetToolStripMenuItem.Size = new Size(224, 26);
             loadSpreadsheetToolStripMenuItem.Text = "Load";
-            loadSpreadsheetToolStripMenuItem.Click += loadSpreadsheetToolStripMenuItem_Click;
+            loadSpreadsheetToolStripMenuItem.Click += LoadSpreadsheetToolStripMenuItem_Click;
             // 
             // saveSpreadsheetToolStripMenuItem
             // 
             saveSpreadsheetToolStripMenuItem.Name = "saveSpreadsheetToolStripMenuItem";
             saveSpreadsheetToolStripMenuItem.Size = new Size(224, 26);
             saveSpreadsheetToolStripMenuItem.Text = "Save";
-            saveSpreadsheetToolStripMenuItem.Click += saveSpreadsheetToolStripMenuItem_Click;
+            saveSpreadsheetToolStripMenuItem.Click += SaveSpreadsheetToolStripMenuItem_Click;
             // 
             // editToolStripMenuItem
             // 

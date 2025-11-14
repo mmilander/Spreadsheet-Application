@@ -3,7 +3,6 @@
 // </copyright>
 namespace Spreadsheet_Mitchell_Milander
 {
-
     using System;
     using System.ComponentModel;
     using System.Windows.Forms;
@@ -142,7 +141,7 @@ namespace Spreadsheet_Mitchell_Milander
             this.UpdateText();
         }
 
-        private void loadSpreadsheetToolStripMenuItem_Click(object sender, EventArgs e)
+        private void LoadSpreadsheetToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.openFileDialog1.InitialDirectory = "c:\\";
             this.openFileDialog1.Filter = "xml files (*.xml)|*.xml|All files (*.*)|*.*";
@@ -159,7 +158,7 @@ namespace Spreadsheet_Mitchell_Milander
             }
         }
 
-        private void saveSpreadsheetToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SaveSpreadsheetToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Stream myStream;
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
