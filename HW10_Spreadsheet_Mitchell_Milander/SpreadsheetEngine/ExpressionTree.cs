@@ -100,6 +100,49 @@ namespace SpreadsheetEngine
             }
         }
 
+        private bool IsValidReference(string val)
+        {
+            if (val.Length < 2) // Ensures now var is without a row number.
+            {
+                return false;
+            }
+            else if (!(val[0] <= 'Z' && val[0] >= 'A')) // Ensures first char is A-Z.
+            {
+                return false;
+            }
+            else
+            {
+                string saveEnd = string.Empty;
+                for (int i = 1; i < val.Length; i++)
+                {
+                    if (!(val[i] >= '0' && val[i] <= '9')) // means char is not a digit
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        saveEnd += val[i];
+                    }
+                }
+
+                try
+                {
+                    int numVal = int.Parse(saveEnd);
+                    if (numVal > 0 && numVal <= this.row) // means number is valid row
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                catch (FormatException) // means either string is not all digits, or out of range.
+                {
+                    return false;
+                }
+            }
+        }
 
         /// <summary>
         /// Parses the operators, operands, and parens from string.
