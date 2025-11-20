@@ -250,7 +250,7 @@ namespace SpreadsheetEngine
 
             if (((ConcreteCell)sender).Text == string.Empty)
             {
-               ((ConcreteCell)sender).SetValue(string.Empty);
+                ((ConcreteCell)sender).SetValue(string.Empty);
             }
             else if (((ConcreteCell)sender).Text[0] != '=')
             {
@@ -258,48 +258,65 @@ namespace SpreadsheetEngine
             }
             else
             {
+                bool badRef = false;
                 string tempText = ((ConcreteCell)sender).Text;
                 string expression = tempText.Substring(1);
-                ExpressionTree tree = new ExpressionTree(expression, this.row, this.col);
-                List<string> list = tree.GetVariableList();
-
-                int senderRow = ((ConcreteCell)sender).RowIndex;
-                int senderCol = ((ConcreteCell)sender).ColumnIndex;
-
-                if (!this.dependencyTable.Contains(new Tuple<int, int>(senderRow, senderCol)))
+                ExpressionTree tree;
+                try
                 {
-                    this.dependencyTable.Add(new Tuple<int, int>(senderRow, senderCol)); // add Cell cordinates of listener.
-                }
+                    tree = new ExpressionTree(expression, this.row, this.col);
+                    List<string> list = tree.GetVariableList();
 
-                foreach (string variable in list)
+                    int senderRow = ((ConcreteCell)sender).RowIndex;
+                    int senderCol = ((ConcreteCell)sender).ColumnIndex;
+
+                    if (!this.dependencyTable.Contains(new Tuple<int, int>(senderRow, senderCol)))
+                    {
+                        this.dependencyTable.Add(new Tuple<int, int>(senderRow, senderCol)); // add Cell cordinates of listener.
+                    }
+
+                    foreach (string variable in list)
+                    {
+                        // Set value of variable.
+                        char tempColChar = variable[0];
+                        int tempRow = int.Parse(variable.Substring(1)) - 1;  // Retrieve any digits after Column Char
+                        int tempCol = tempColChar % 'A';
+                        Cell tempCell = this.GetCell(tempRow, tempCol);
+                        tempCell.PropertyChanged -= this.Cell_PropertyChangedAgain;
+                        tempCell.PropertyChanged += this.Cell_PropertyChangedAgain;
+                        string tempValue = tempCell.Value;
+                        double number;
+                        if (double.TryParse(tempValue, out number))
+                        {
+                            tree.SetVariable(variable, number);
+                        }
+                        else
+                        {
+                            badRef = true;
+                            ((ConcreteCell)sender).SetValue("!(bad reference)");
+                            break;
+                        }
+                    }
+
+                    if (!badRef)
+                    {
+                        badRef = false;
+                        ((ConcreteCell)sender).SetValue(tree.Evaluate().ToString());
+                    }
+
+                   // this.CellPropertyChanged?.Invoke(sender, e);
+                }
+                catch (ArgumentException)
                 {
-                    // Set value of variable.
-                    char tempColChar = variable[0];
-                    int tempRow = int.Parse(variable.Substring(1)) - 1;  // Retrieve any digits after Column Char
-                    int tempCol = tempColChar % 'A';
-                    Cell tempCell = this.GetCell(tempRow, tempCol);
-                    tempCell.PropertyChanged -= this.Cell_PropertyChangedAgain;
-                    tempCell.PropertyChanged += this.Cell_PropertyChangedAgain;
-                    string tempValue = tempCell.Value;
-                    double number;
-                    if (double.TryParse(tempValue, out number))
-                    {
-                        tree.SetVariable(variable, number);
-                    }
-                    else
-                    {
-                        // implement Exception logic for next HW.
-                    }
+                    ((ConcreteCell)sender).SetValue("!(bad reference)");
+                    this.CellPropertyChanged?.Invoke(sender, e);
                 }
-
-                ((ConcreteCell)sender).SetValue(tree.Evaluate().ToString());
             }
-
-            this.CellPropertyChanged?.Invoke(sender, e);
         }
 
         private void Cell_PropertyChangedAgain(object sender, PropertyChangedEventArgs e)
         {
+            bool badRef = false;
             if (this.reevaluate == true) // prevents circular handler trigggering
             {
                 return;
@@ -332,11 +349,21 @@ namespace SpreadsheetEngine
                     }
                     else
                     {
-                        // implement Exception logic for next HW.
+                        listener.SetValue("!(bad reference)");
+                        badRef = true;
+                        this.reevaluate = false;
+                        break;
                     }
                 }
 
-                listener.SetValue(listenerExpression.Evaluate().ToString());
+                if (!badRef)
+                {
+                    listener.SetValue(listenerExpression.Evaluate().ToString());
+                }
+                else
+                {
+                    badRef = false;
+                }
             }
 
             this.reevaluate = false;

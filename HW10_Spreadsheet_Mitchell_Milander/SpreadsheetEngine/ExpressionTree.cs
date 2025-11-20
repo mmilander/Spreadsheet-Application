@@ -38,9 +38,21 @@ namespace SpreadsheetEngine
             this.stackNode = new Stack<Node>();
             this.generateNode = new OperatorNodeFactory();
             expression = Regex.Replace(expression, @"\s+", string.Empty); // Strip whitespace.
-            List<string> result = Tokenize(expression);
+            List<string> result = result = this.Tokenize(expression);
             result = this.Shunt(result);
             this.root = this.BuildTree(this.stackNode, result);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExpressionTree"/> class.
+        /// </summary>
+        public ExpressionTree()
+        {
+            this.row = 0;
+            this.col = 0;
+            this.stackNode = new Stack<Node>();
+            this.generateNode = new OperatorNodeFactory();
+            this.root = new SubtractionOperatorNode();
         }
 
         /// <summary>
@@ -178,7 +190,7 @@ namespace SpreadsheetEngine
                         tempOperand += input[i];
                         i += 1;
                     }
-                    while (i < input.Length);// && IsOperand(input[i]));
+                    while (i < input.Length && IsOperand(input[i]));
                     i--;
                     if (!this.IsValidReference(tempOperand))
                     {
