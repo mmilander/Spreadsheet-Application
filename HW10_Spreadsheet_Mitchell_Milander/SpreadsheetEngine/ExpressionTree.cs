@@ -17,18 +17,24 @@ namespace SpreadsheetEngine
         private Stack<Node> stackNode;
         private Node root;
         private Dictionary<string, double> variables = new Dictionary<string, double>();
+        private int row;
+        private int col;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpressionTree"/> class.
         /// </summary>
-        /// <param name="expression">string to parse.</param>
-        public ExpressionTree(string expression)
+        /// <param name="expression"> String.</param>
+        /// <param name="row">Row Count.</param>
+        /// <param name="col">Col Count.</param>
+        public ExpressionTree(string expression, int row, int col)
         {
             if (expression == string.Empty)
             {
                 throw new ArgumentException("Input is Empty.");
             }
 
+            this.row = row;
+            this.col = col;
             this.stackNode = new Stack<Node>();
             this.generateNode = new OperatorNodeFactory();
             expression = Regex.Replace(expression, @"\s+", string.Empty); // Strip whitespace.
@@ -94,12 +100,13 @@ namespace SpreadsheetEngine
             }
         }
 
+
         /// <summary>
         /// Parses the operators, operands, and parens from string.
         /// </summary>
         /// <param name="input">The string expression.</param>
         /// <returns>returns a List of strings.</returns>
-        private static List<string> Tokenize(string input)
+        private List<string> Tokenize(string input)
         {
             List<string> result = new List<string>();
             string tempOperand = string.Empty;
@@ -123,18 +130,18 @@ namespace SpreadsheetEngine
                 }
                 else // Variable logic.
                 {
-                    if (!IsOperand(input[i]))
-                    {
-                        throw new ArgumentException("Invalid Operand");
-                    }
-
                     do
                     {
                         tempOperand += input[i];
                         i += 1;
                     }
-                    while (i < input.Length && IsOperand(input[i]));
+                    while (i < input.Length);// && IsOperand(input[i]));
                     i--;
+                    if (!this.IsValidReference(tempOperand))
+                    {
+                         throw new ArgumentException("Invalid Operand");
+                    }
+
                     result.Add(tempOperand);
                     tempOperand = string.Empty;
                 }
@@ -201,6 +208,7 @@ namespace SpreadsheetEngine
                         {
                             precedenceVal = 0;
                         }
+
                         try
                         {
                             OperatorNode stackOpNode = this.generateNode.CreateOperatorNode(stack.Peek()[0]);
@@ -226,6 +234,7 @@ namespace SpreadsheetEngine
                             {
                                 precedenceStack = 0;
                             }
+
                             while (stack.Count != 0 && (precedenceVal <= precedenceStack))
                             {
                                 postfix.Add(stack.Pop());

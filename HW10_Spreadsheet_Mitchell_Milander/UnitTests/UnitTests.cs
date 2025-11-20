@@ -33,6 +33,33 @@ public class UnitTests
     }
 
     /// <summary>
+    /// Checks that
+    /// </summary>
+    [Test]
+    public void TestNormalCaseReference()
+    {
+        
+    }
+
+    /// <summary>
+    /// Checks that 
+    /// </summary>
+    [Test]
+    public void EdgeCaseReference()
+    {
+        
+    }
+
+    /// <summary>
+    /// This tests 
+    /// </summary>
+    [Test]
+    public void ExceptionCaseReference()
+    {
+       
+    }
+
+    /// <summary>
     /// Checks that a spreadsheet is saved and loaded correctly.
     /// </summary>
     [Test]

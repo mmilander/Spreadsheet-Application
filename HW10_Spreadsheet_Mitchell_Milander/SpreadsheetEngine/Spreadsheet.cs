@@ -260,7 +260,7 @@ namespace SpreadsheetEngine
             {
                 string tempText = ((ConcreteCell)sender).Text;
                 string expression = tempText.Substring(1);
-                ExpressionTree tree = new ExpressionTree(expression);
+                ExpressionTree tree = new ExpressionTree(expression, this.row, this.col);
                 List<string> list = tree.GetVariableList();
 
                 int senderRow = ((ConcreteCell)sender).RowIndex;
@@ -314,7 +314,7 @@ namespace SpreadsheetEngine
                     continue;
                 }
 
-                ExpressionTree listenerExpression = new ExpressionTree(listener.Text.Substring(1));
+                ExpressionTree listenerExpression = new ExpressionTree(listener.Text.Substring(1), this.row, this.col);
                 List<string> list = listenerExpression.GetVariableList();
                 foreach (string variable in list)
                 {

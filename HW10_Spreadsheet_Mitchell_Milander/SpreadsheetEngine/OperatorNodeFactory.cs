@@ -2,21 +2,26 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using System.Reflection;
-
 namespace SpreadsheetEngine
 {
+    using System.Reflection;
+
     /// <summary>
     /// This implements the factory method.
     /// </summary>
     internal class OperatorNodeFactory
     {
         private Dictionary<char, Type> operators = new Dictionary<char, Type>();
-        private delegate void OnOperator(char op, Type type);
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OperatorNodeFactory"/> class.
+        /// </summary>
         public OperatorNodeFactory()
         {
-            TraverseAvailableOperators((op, type) => operators.Add(op, type));
+            this.TraverseAvailableOperators((op, type) => this.operators.Add(op, type));
         }
+
+        private delegate void OnOperator(char op, Type type);
 
         /// <summary>
         /// This creates a type OperatorNode type depending on input.
@@ -26,14 +31,15 @@ namespace SpreadsheetEngine
         /// <exception cref="ArgumentException">Invalid Operator.</exception>
         public OperatorNode CreateOperatorNode(char op)
         {
-            if (operators.ContainsKey(op))
+            if (this.operators.ContainsKey(op))
             {
-                object operatorNodeObject = System.Activator.CreateInstance(operators[op]);
+                object operatorNodeObject = System.Activator.CreateInstance(this.operators[op]);
                 if (operatorNodeObject is OperatorNode)
                 {
                     return (OperatorNode)operatorNodeObject;
                 }
             }
+
             throw new Exception("Unhandled operator");
         }
 
@@ -41,12 +47,14 @@ namespace SpreadsheetEngine
         {
             // get the type declaration of OperatorNode
             Type operatorNodeType = typeof(OperatorNode);
+
             // Iterate over all loaded assemblies:
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 // Get all types that inherit from our OperatorNode class using LINQ
                 IEnumerable<Type> operatorTypes =
                assembly.GetTypes().Where(type => type.IsSubclassOf(operatorNodeType));
+
                 // Iterate over those subclasses of OperatorNode
                 foreach (var type in operatorTypes)
                 {
@@ -64,6 +72,7 @@ namespace SpreadsheetEngine
                         if (value is char)
                         {
                             char operatorSymbol = (char)value;
+
                             // And invoke the function passed as parameter
                             // with the operator symbol and the operator class
                             onOperator(operatorSymbol, type);

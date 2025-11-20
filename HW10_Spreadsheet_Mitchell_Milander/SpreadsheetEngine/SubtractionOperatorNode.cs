@@ -10,15 +10,8 @@ namespace SpreadsheetEngine
     internal class SubtractionOperatorNode : OperatorNode
     {
         /// <summary>
-        /// Overriden Evaluate Class.
+        /// Gets Operator;
         /// </summary>
-        /// <param name="variables">Dictionary Object.</param>
-        /// <returns>double.</returns>
-        public override double Evaluate()
-        {
-            return this.Left.Evaluate() - this.Right.Evaluate();
-        }
-
         public override char Operator
         {
             get
@@ -27,6 +20,9 @@ namespace SpreadsheetEngine
             }
         }
 
+        /// <summary>
+        /// Gets Precedence.
+        /// </summary>
         public override int Precedence
         {
             get
@@ -35,12 +31,25 @@ namespace SpreadsheetEngine
             }
         }
 
+        /// <summary>
+        /// Gets Associativity.
+        /// </summary>
         public override string Associativity
         {
             get
             {
                 return "left";
             }
+        }
+
+        /// <summary>
+        /// Overriden Evaluate Class.
+        /// </summary>
+        /// <param name="variables">Dictionary Object.</param>
+        /// <returns>double.</returns>
+        public override double Evaluate()
+        {
+            return this.Left.Evaluate() - this.Right.Evaluate();
         }
     }
 }
