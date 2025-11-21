@@ -29,34 +29,43 @@ public class UnitTests
     {
         this.normalCaseSpreadsheet = new Spreadsheet(5, 5);
         this.edgeCaseSpreadsheet = new Spreadsheet(5, 5);
-        this.objectUnderTest = new ExpressionTree("2 + 4 + 1");
+        this.objectUnderTest = new ExpressionTree("2 + 4 + 1", 5, 5);
     }
 
     /// <summary>
-    /// Checks that
+    /// Checks that a self referenced cell is caught.
     /// </summary>
     [Test]
     public void TestNormalCaseReference()
     {
-        
+        Spreadsheet spreadsheet = new Spreadsheet(5, 5);
+        this.normalCaseSpreadsheet.GetCell(0, 0).Text = "=A1";
+        string tempValue = this.normalCaseSpreadsheet.GetCell(0, 0).Value;
+        Assert.That(tempValue, Is.EqualTo("!(self reference)"));
     }
 
     /// <summary>
-    /// Checks that 
+    /// Checks that an equation with no operands is handled correctly.
     /// </summary>
     [Test]
     public void EdgeCaseReference()
     {
-        
+        Spreadsheet spreadsheet = new Spreadsheet(5, 5);
+        this.normalCaseSpreadsheet.GetCell(0, 0).Text = "=";
+        string tempValue = this.normalCaseSpreadsheet.GetCell(0, 0).Value;
+        Assert.That(tempValue, Is.EqualTo("!(bad reference)"));
     }
 
     /// <summary>
-    /// This tests 
+    /// Checks that integer overflow is handled as a bad reference.
     /// </summary>
     [Test]
     public void ExceptionCaseReference()
     {
-       
+        Spreadsheet spreadsheet = new Spreadsheet(5, 5);
+        this.normalCaseSpreadsheet.GetCell(0, 0).Text = "=A11111111111";
+        string tempValue = this.normalCaseSpreadsheet.GetCell(0, 0).Value;
+        Assert.That(tempValue, Is.EqualTo("!(bad reference)"));
     }
 
     /// <summary>
@@ -186,7 +195,7 @@ public class UnitTests
 
     public void NormalTestExpressionTree(string input, double expected)
     {
-        ExpressionTree normalCaseExpressionTree = new ExpressionTree(input);
+        ExpressionTree normalCaseExpressionTree = new ExpressionTree(input, 5, 5);
         double testNum = normalCaseExpressionTree.Evaluate();
         Assert.That(expected, Is.EqualTo(testNum));
     }
@@ -197,7 +206,7 @@ public class UnitTests
     [Test]
     public void EdgeCaseExpressionTree()
     {
-        Assert.Throws<ArgumentException>(() => new ExpressionTree(string.Empty));
+        Assert.Throws<ArgumentException>(() => new ExpressionTree(string.Empty, 5, 5));
     }
 
     /// <summary>
@@ -206,7 +215,7 @@ public class UnitTests
     [Test]
     public void ExceptionCaseExpressionTree()
     {
-        Assert.Throws<ArgumentException>(() => new ExpressionTree("%"));
+        Assert.Throws<ArgumentException>(() => new ExpressionTree("%", 5, 5));
     }
 
     /// <summary>
