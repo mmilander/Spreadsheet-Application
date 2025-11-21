@@ -275,7 +275,6 @@ namespace SpreadsheetEngine
                         this.dependencyTable.Add(new Tuple<int, int>(senderRow, senderCol)); // add Cell cordinates of listener.
                     }
 
-                    bool duplicate = false;
                     foreach (string variable in list)
                     {
                         // Set value of variable.
@@ -294,7 +293,6 @@ namespace SpreadsheetEngine
                                 badRef = true;
                                 ((ConcreteCell)sender).SetValue("!(self reference)");
                                 break;
-
                             }
                             else
                             {
@@ -342,7 +340,7 @@ namespace SpreadsheetEngine
             {
                 badRef = false;
                 Cell listener = this.GetCell(tuple.Item1, tuple.Item2);
-                if (listener.Text == string.Empty)
+                if (listener.Text == string.Empty || listener.Text[0] != '=')
                 {
                     continue;
                 }
@@ -375,6 +373,12 @@ namespace SpreadsheetEngine
                     else if (tempValue == string.Empty)
                     {
                         listenerExpression.SetVariable(variable, 0);
+                    }
+                    else if (tempValue[0] == '!') // Already evaluated as an error
+                    {
+                        listener.SetValue("!(bad reference)");
+                        badRef = true;
+                        break;
                     }
                     else
                     {
