@@ -275,6 +275,7 @@ namespace SpreadsheetEngine
                         this.dependencyTable.Add(new Tuple<int, int>(senderRow, senderCol)); // add Cell cordinates of listener.
                     }
 
+                    bool duplicate = false;
                     foreach (string variable in list)
                     {
                         // Set value of variable.
@@ -288,7 +289,17 @@ namespace SpreadsheetEngine
                         double number;
                         if (double.TryParse(tempValue, out number))
                         {
-                            tree.SetVariable(variable, number);
+                            if (variable.Equals(this.GetCellName(senderRow, senderCol)))
+                            {
+                                badRef = true;
+                                ((ConcreteCell)sender).SetValue("!(self reference)");
+                                break;
+
+                            }
+                            else
+                            {
+                                tree.SetVariable(variable, number);
+                            }
                         }
                         else if (tempValue == string.Empty)
                         {
@@ -318,6 +329,8 @@ namespace SpreadsheetEngine
 
         private void Cell_PropertyChangedAgain(object sender, PropertyChangedEventArgs e)
         {
+            int senderRow = ((ConcreteCell)sender).RowIndex;
+            int senderCol = ((ConcreteCell)sender).ColumnIndex;
             bool badRef = false;
             if (this.reevaluate == true) // prevents circular handler trigggering
             {
@@ -327,6 +340,7 @@ namespace SpreadsheetEngine
             this.reevaluate = true;
             foreach (Tuple<int, int> tuple in this.dependencyTable)
             {
+                badRef = false;
                 Cell listener = this.GetCell(tuple.Item1, tuple.Item2);
                 if (listener.Text == string.Empty)
                 {
@@ -347,7 +361,16 @@ namespace SpreadsheetEngine
                     double number;
                     if (double.TryParse(tempValue, out number))
                     {
-                        listenerExpression.SetVariable(variable, number);
+                        if (variable.Equals(this.GetCellName(listener.RowIndex, listener.ColumnIndex)))
+                        {
+                            badRef = true;
+                            listener.SetValue("!(self reference)");
+                            break;
+                        }
+                        else
+                        {
+                            listenerExpression.SetVariable(variable, number);
+                        }
                     }
                     else if (tempValue == string.Empty)
                     {
@@ -365,10 +388,6 @@ namespace SpreadsheetEngine
                 if (!badRef)
                 {
                     listener.SetValue(listenerExpression.Evaluate().ToString());
-                }
-                else
-                {
-                    badRef = false;
                 }
             }
 
