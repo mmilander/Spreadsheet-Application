@@ -10,7 +10,7 @@ namespace SpreadsheetEngine
     internal class SubtractionOperatorNode : OperatorNode
     {
         /// <summary>
-        /// Gets Operator;
+        /// Gets Operator.
         /// </summary>
         public override char Operator
         {

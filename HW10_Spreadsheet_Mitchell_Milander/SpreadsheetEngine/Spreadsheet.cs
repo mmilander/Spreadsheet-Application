@@ -240,6 +240,42 @@ namespace SpreadsheetEngine
             }
         }
 
+        private bool CircularReference(Cell cell, HashSet<string> set)
+        {
+            if (cell.Text == string.Empty || cell.Text[0] != '=')
+            {
+                return false;
+            }
+
+           /* if(cell.Equals(origin) && set.Count > 1)
+            {
+                return true;
+            }*/
+
+            if (set.Contains(this.GetCellName(cell.RowIndex, cell.ColumnIndex)))
+            {
+                return true;
+            }
+
+            set.Add(this.GetCellName(cell.RowIndex, cell.ColumnIndex));
+            ExpressionTree listenerExpression = new ExpressionTree(cell.Text.Substring(1), this.row, this.col);
+            List<string> list = listenerExpression.GetVariableList();
+            foreach (string variable in list)
+            {
+                char tempColChar = variable[0];
+                int tempRow = int.Parse(variable.Substring(1)) - 1;  // Retrieve any digits after Column Char
+                int tempCol = tempColChar % 'A';
+                if (this.CircularReference(this.GetCell(tempRow, tempCol), set))
+                {
+                    set.Remove(this.GetCellName(cell.RowIndex, cell.ColumnIndex));
+                    return true;
+                }
+            }
+
+            set.Remove(this.GetCellName(cell.RowIndex, cell.ColumnIndex));
+            return false;
+        }
+
         private void Cell_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName != nameof(Cell.Text))
@@ -255,6 +291,7 @@ namespace SpreadsheetEngine
             else if (((ConcreteCell)sender).Text[0] != '=')
             {
                 ((ConcreteCell)sender).SetValue(((ConcreteCell)sender).Text);
+                this.Cell_PropertyChangedAgain(sender, e);
             }
             else
             {
@@ -286,6 +323,13 @@ namespace SpreadsheetEngine
                         tempCell.PropertyChanged += this.Cell_PropertyChangedAgain;
                         string tempValue = tempCell.Value;
                         double number;
+                        if (tempRow == senderRow && tempCol == senderCol)
+                        {
+                            badRef = true;
+                            ((ConcreteCell)sender).SetValue("!(self reference)");
+                            break;
+                        }
+
                         if (double.TryParse(tempValue, out number))
                         {
                             if (variable.Equals(this.GetCellName(senderRow, senderCol)))
@@ -313,8 +357,16 @@ namespace SpreadsheetEngine
 
                     if (!badRef)
                     {
-                        badRef = false;
-                        ((ConcreteCell)sender).SetValue(tree.Evaluate().ToString());
+                        if (this.CircularReference((ConcreteCell)sender, new HashSet<string>()))
+                        {
+                            // badRef = true;
+                            ((ConcreteCell)sender).SetValue("!(circular reference)");
+                        }
+                        else
+                        {
+                           // badRef = false;
+                            ((ConcreteCell)sender).SetValue(tree.Evaluate().ToString());
+                        }
                     }
                 }
                 catch (ArgumentException)
@@ -374,9 +426,21 @@ namespace SpreadsheetEngine
                     {
                         listenerExpression.SetVariable(variable, 0);
                     }
-                    else if (tempValue[0] == '!') // Already evaluated as an error
+                    else if (tempValue.Equals("!(bad reference)")) // Already evaluated as an error
                     {
                         listener.SetValue("!(bad reference)");
+                        badRef = true;
+                        break;
+                    }
+                    else if (tempValue.Equals("!(self reference)"))
+                    {
+                        listener.SetValue("!(self reference)");
+                        badRef = true;
+                        break;
+                    }
+                    else if (tempValue.Equals("!(circular reference)"))
+                    {
+                        listener.SetValue("!(circular reference)");
                         badRef = true;
                         break;
                     }

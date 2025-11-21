@@ -153,6 +153,10 @@ namespace SpreadsheetEngine
                 {
                     return false;
                 }
+                catch (OverflowException) // means either string is not all digits, or out of range.
+                {
+                    return false;
+                }
             }
         }
 
