@@ -290,6 +290,10 @@ namespace SpreadsheetEngine
                         {
                             tree.SetVariable(variable, number);
                         }
+                        else if (tempValue == string.Empty)
+                        {
+                            tree.SetVariable(variable, 0);
+                        }
                         else
                         {
                             badRef = true;
@@ -303,8 +307,6 @@ namespace SpreadsheetEngine
                         badRef = false;
                         ((ConcreteCell)sender).SetValue(tree.Evaluate().ToString());
                     }
-
-                   // this.CellPropertyChanged?.Invoke(sender, e);
                 }
                 catch (ArgumentException)
                 {
@@ -346,6 +348,10 @@ namespace SpreadsheetEngine
                     if (double.TryParse(tempValue, out number))
                     {
                         listenerExpression.SetVariable(variable, number);
+                    }
+                    else if (tempValue == string.Empty)
+                    {
+                        listenerExpression.SetVariable(variable, 0);
                     }
                     else
                     {
