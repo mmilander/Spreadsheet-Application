@@ -1,6 +1,6 @@
 # Spreadsheet Application
 
-A desktop spreadsheet application built in **C# with .NET 8 and Windows Forms** for a semester-long software engineering course at Washington State University. The project explores object-oriented design, expression parsing, event-driven updates, and reusable design patterns through a spreadsheet engine separated from its graphical interface.
+A desktop spreadsheet application built in **C# with .NET 8 and Windows Forms** for a semester-long software engineering course at Washington State University. Through this project, I gained hands-on experience with object-oriented programming, expression parsing, event-driven programming, and software design patterns while building a spreadsheet application with separate logic and user interface components.
 
 ## Application screenshot
 
@@ -31,20 +31,6 @@ A desktop spreadsheet application built in **C# with .NET 8 and Windows Forms** 
 
 **Technologies:** C#, .NET 8, Windows Forms, NUnit, XML, Visual Studio, Git.
 
-## Repository structure
-
-The most recent spreadsheet iteration is in [`HW10_Spreadsheet_Mitchell_Milander`](HW10_Spreadsheet_Mitchell_Milander/):
-
-```text
-HW10_Spreadsheet_Mitchell_Milander/
-├── SpreadsheetEngine/                 # Cell model, expression evaluator, commands, persistence
-├── Spreadsheet_Mitchell_Milander/     # Windows Forms user interface
-├── UnitTests/                         # NUnit test project
-└── Spreadsheet_Mitchell_Milander.sln  # Visual Studio solution
-```
-
-The repository also retains earlier assignment folders, showing how the application evolved across the semester, along with smaller supporting C# exercises.
-
 ## Running the application in Visual Studio
 
 **Requirements:** Windows, Visual Studio with the **.NET desktop development** workload, and the **.NET 8 SDK**.
@@ -57,7 +43,3 @@ The repository also retains earlier assignment folders, showing how the applicat
 ### Unit tests
 
 The `UnitTests` project uses **NUnit**. To explore or run its tests, open **Test → Test Explorer** in Visual Studio and run the available tests.
-
-## Background
-
-Developed incrementally as part of CptS 321 software engineering coursework. This repository documents hands-on experience with C# application development, separating UI and business logic, implementing extensible components, and applying software engineering concepts in code.
