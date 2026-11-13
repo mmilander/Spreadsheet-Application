@@ -16,15 +16,17 @@ A desktop spreadsheet application built in **C# with .NET 8 and Windows Forms** 
 - **XML persistence:** Added `Save(Stream)` and `Load(Stream)` methods using .NET XML APIs to store and restore cell data.
 - **Automated tests:** Wrote NUnit test cases for expression evaluation, cell behavior, editing commands, persistence, and reference handling.
 
-## Design patterns and C# concepts
+## Software Design Patterns and Principles
+| Concept | How I Applied It |
+|---|---|
+| **Polymorphism (GRASP)** | Used an abstract `Node` class with overridden `Evaluate()` methods to handle different arithmetic operations. |
+| **Factory Pattern** | Used `OperatorNodeFactory` with C# reflection to dynamically create operator nodes without hardcoding each operator into the expression parser. |
+| **Observer Pattern** | Used C# property-change events to notify the spreadsheet engine and user interface when cell properties changed. |
+| **Command Pattern** | Created an `ICommand` interface and concrete commands to support undoing and redoing spreadsheet changes. |
+| **Creator (GRASP)** | Used the `Spreadsheet` class to create and manage spreadsheet cells. |
+| **Layered Architecture** | Separated the spreadsheet engine from the Windows Forms interface to keep application logic independent of the GUI. |
+| **Pure Fabrication (GRASP)** | Created a separate `OperatorNodeFactory` class to handle operator creation, keeping that responsibility out of the `ExpressionTree` class and improving separation of concerns. |
 
-| Concept | Where it appears |
-| --- | --- |
-| **Factory-style object creation** | `OperatorNodeFactory` discovers operator types using reflection and creates operator-node instances. |
-| **Command pattern** | `ICommand`, `ChangeTextCommand`, `ChangeBackgroundCommand`, and `UndoRedoCollection` represent reversible edits. |
-| **Observer-style notifications** | `INotifyPropertyChanged` and spreadsheet events notify the UI when cell state changes. |
-| **Object-oriented programming** | Abstract `Cell` and `Node` classes, specialized node subclasses, encapsulation, inheritance, and polymorphism. |
-| **Algorithms and data structures** | Expression trees, shunting-yard parsing, dictionaries, stacks, and cell-dependency traversal. |
 
 **Technologies:** C#, .NET 8, Windows Forms, NUnit, XML, Visual Studio, Git.
 
