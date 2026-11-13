@@ -6,8 +6,6 @@ A desktop spreadsheet application built in **C# with .NET 8 and Windows Forms** 
 
 ![Spreadsheet application running in Visual Studio during HW7](assets/spreadsheet-hw7-demo.png)
 
-*An earlier HW7-stage build running in Visual Studio. The screenshot shows the spreadsheet grid with a formula being edited; the repository also includes later iterations.*
-
 ## Project highlights
 
 - **Windows Forms spreadsheet UI:** Created a `DataGridView` with 26 columns (A–Z) and 50 rows, displaying cell text while editing and calculated values otherwise.
