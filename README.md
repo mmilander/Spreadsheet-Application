@@ -14,7 +14,6 @@ A desktop spreadsheet application built in **C# with .NET 8 and Windows Forms** 
 - **Event-driven updates:** Used `INotifyPropertyChanged` and cell-change events to propagate changes from the spreadsheet engine to the UI.
 - **Command-based undo/redo:** Defined an `ICommand` interface and concrete commands for text and background-color changes, with stack-based undo/redo operations.
 - **XML persistence:** Added `Save(Stream)` and `Load(Stream)` methods using .NET XML APIs to store and restore cell data.
-- **Formula reference checks:** Added logic to recognize invalid references, self-references, and circular-reference cases as the spreadsheet developed.
 - **Automated tests:** Wrote NUnit test cases for expression evaluation, cell behavior, editing commands, persistence, and reference handling.
 
 ## Design patterns and C# concepts
